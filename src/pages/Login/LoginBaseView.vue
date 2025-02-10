@@ -1,8 +1,8 @@
 <template lang="html">
 
   <section class="src-pages-login-base-view d-flex align-items-center justify-content-center">
-    <div class="d-flex align-items-center justify-content-center box-login border border-1 rounded-5">
-      <div class="container">
+    <div class="box-login border border-1 rounded-5 align-content-center">
+      <div class="container-fluid">
         <router-view></router-view>
       </div>
     </div>
@@ -42,8 +42,8 @@ export default {
 }
 
 .box-login {
-  width: 30%;
-  height: 50%;
+  width: 40vw;
+  height: 60vh;
   background-color: white;
 }
 .input-login {

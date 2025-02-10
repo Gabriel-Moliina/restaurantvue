@@ -2,11 +2,11 @@
 
   <section class="src-components-restaurant-view">
     <div class="saloon container-fluid text-center">
-      <div class="row row-cols-3 mt-3">
+      <div class="row row-cols-1 row-cols-md-3 mt-3">
         <div class="col p-4">
-          <span>Livres</span>
-          <div class="row row-gap-3 row-cols-2 mt-5">
-            <div v-for="table in freeTables">
+          <span class="h4">Livres</span>
+          <div class="row row-cols-1 row-cols-md-2 row-gap-3 mt-5">
+            <div v-for="table in freeTables" class="col">
               <div class="table-reserve table-reserve-free">
                 <div class="row justify-content-end m-1 fs-3">
                   {{ table.identification }}
@@ -15,8 +15,9 @@
                   Cadeiras: {{ table.capacity }}
                 </div>
                 <div class="row justify-content-end m-1">
-                  <div class="col-3">
-                    <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#modalEditTable">Editar</button>
+                  <div class="col-md-3">
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal"
+                      data-bs-target="#modalEditTable">Editar</button>
                   </div>
                 </div>
               </div>
@@ -24,9 +25,9 @@
           </div>
         </div>
         <div class="col p-4">
-          <span>Reservadas</span>
-          <div class="row row-gap-3 row-cols-2 mt-5">
-            <div v-for="table in reservedTables">
+          <span class="h4">Reservadas</span>
+          <div class="row row-cols-1 row-cols-md-2 row-gap-3 mt-5">
+            <div v-for="table in reservedTables" class="col">
               <div class="table-reserve table-reserve-reserved">
                 <div class="row justify-content-end m-1 fs-3">
                   {{ table.identification }}
@@ -35,10 +36,11 @@
                   Cadeiras: {{ table.capacity }}
                 </div>
                 <div class="row justify-content-end m-1">
-                  <div class="col-3">
-                    <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#modalEditTable">Editar</button>
+                  <div class="col-md-3">
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal"
+                      data-bs-target="#modalEditTable">Editar</button>
                   </div>
-                  <div class="col-4">
+                  <div class="col-md-4">
                     <button type="button" class="btn btn-success btn-sm">Reservar</button>
                   </div>
                 </div>
@@ -47,9 +49,9 @@
           </div>
         </div>
         <div class="col p-4">
-          <span>Ocupadas</span>
-          <div class="row row-gap-3 row-cols-2 mt-5">
-            <div v-for="table in busyTables">
+          <span class="h4">Ocupadas</span>
+          <div class="row row-cols-1 row-cols-md-2 row-gap-3 mt-5">
+            <div v-for="table in busyTables" class="col">
               <div class="table-reserve table-reserve-busy">
                 <div class="row justify-content-end m-1 fs-3">
                   {{ table.identification }}
@@ -58,11 +60,9 @@
                   Cadeiras: {{ table.capacity }}
                 </div>
                 <div class="row justify-content-end m-1">
-                  <div class="col-3">
-                    <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#modalEditTable">Editar</button>
-                  </div>
-                  <div class="col-4">
-                    <button type="button" class="btn btn-success btn-sm">Reservar</button>
+                  <div class="col-md-3">
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal"
+                      data-bs-target="#modalEditTable">Editar</button>
                   </div>
                 </div>
               </div>
@@ -72,6 +72,8 @@
       </div>
     </div>
   </section>
+
+
 
   <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
   Launch demo modal
