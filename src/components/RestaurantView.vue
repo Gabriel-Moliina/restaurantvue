@@ -15,9 +15,12 @@
                   Cadeiras: {{ table.capacity }}
                 </div>
                 <div class="row justify-content-end m-1">
-                  <div class="col-md-3">
+                  <div class="col-3 col-md-3">
                     <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal"
                       data-bs-target="#modalEditTable">Editar</button>
+                  </div>
+                  <div class="col-3 col-md-4">
+                    <button type="button" class="btn btn-success btn-sm">Reservar</button>
                   </div>
                 </div>
               </div>
@@ -36,12 +39,9 @@
                   Cadeiras: {{ table.capacity }}
                 </div>
                 <div class="row justify-content-end m-1">
-                  <div class="col-md-3">
+                  <div class="col-3 col-md-3">
                     <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal"
                       data-bs-target="#modalEditTable">Editar</button>
-                  </div>
-                  <div class="col-md-4">
-                    <button type="button" class="btn btn-success btn-sm">Reservar</button>
                   </div>
                 </div>
               </div>
@@ -60,7 +60,7 @@
                   Cadeiras: {{ table.capacity }}
                 </div>
                 <div class="row justify-content-end m-1">
-                  <div class="col-md-3">
+                  <div class="col-3 col-md-3">
                     <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal"
                       data-bs-target="#modalEditTable">Editar</button>
                   </div>
@@ -135,9 +135,9 @@ export default {
 
 <style scoped>
 .table-reserve {
-  background-color: rgb(228, 228, 228);
+  background-color: rgb(255, 255, 255);
   border: solid;
-  border-width: 4px;
+  border-width: 2px;
   border-radius: 15px;
   height: 150px;
   padding: 15px;
