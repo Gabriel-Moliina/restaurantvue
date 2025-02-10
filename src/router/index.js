@@ -1,13 +1,38 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import AboutView from '@/views/AboutView.vue'
-import LoginView from '@/views/LoginView.vue'
+import LoginView from '@/pages/Login/LoginView.vue'
+import LoginCreateView from '@/pages/Login/LoginCreateView.vue'
+import LoginBaseView from '@/pages/Login/LoginBaseView.vue'
+import HomeView from '@/components/HomeView.vue'
+import RestaurantView from '@/components/RestaurantView.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'login',
-    component: LoginView
+    redirect: '/login'
+  },
+  {
+    path: '/login',
+    component: LoginBaseView,
+    children: [
+      {
+        path: 'create',
+        component: LoginCreateView
+      },
+      {
+        path: '',
+        component: LoginView
+      }
+    ]
+  },
+  {
+    path: '/home',
+    component: HomeView,
+    children: [
+      {
+        path: 'restaurant/:id',
+        component: RestaurantView
+      }
+    ]
   }
 ]
 
