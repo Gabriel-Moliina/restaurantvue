@@ -23,7 +23,7 @@
 
 <script lang="js">
 
-import UserApi from '@/api/UserApi';
+import UserService from '@/services/UserService';
 import { RouterLink } from 'vue-router';
 
 export default {
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     login() {
-      UserApi.Login(this.userName, this.password)
+      UserService.Login(this.userName, this.password)
         .then(response => {
           sessionStorage.setItem("token", response.data.data.token);
           this.$router.push('/home')

@@ -33,14 +33,14 @@
 </template>
 
 <script lang="js">
-import RestaurantApi from '@/api/RestaurantApi';
+import RestaurantService from '@/services/RestaurantService';
 
 
 export default {
   name: 'src-components-home-view',
   props: [],
   mounted() {
-    RestaurantApi.Get().then(response => {
+    RestaurantService.Get().then(response => {
       this.restaurants = response.data.data
     })
   },

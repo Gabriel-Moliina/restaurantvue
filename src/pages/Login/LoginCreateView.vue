@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import UserService from '@/services/UserService';
 
 export default {
   name: 'src-pages-login-create-view',
@@ -43,8 +43,7 @@ export default {
   },
   methods: {
     register() {
-      axios
-        .post("http://localhost:5142/api/User/Create", { Email: this.userName, Password: this.password, ConfirmPassword: this.confirmPassword })
+      UserService.Create(this.userName, this.password, this.confirmPassword)
         .then(response => {
           sessionStorage.setItem("token", response.data.data.token);
         }).catch(reseponse => {
