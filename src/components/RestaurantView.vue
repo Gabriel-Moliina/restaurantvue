@@ -2,9 +2,7 @@
   <div class="contaier-fluid mt-5">
     <div class="row justify-content-center">
       <div class="col-md-8">
-        <div class="card">
           <DataRestaurant />
-        </div>
       </div>
     </div>
   </div>
