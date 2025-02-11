@@ -1,8 +1,8 @@
 <template lang="html">
-
+  <Toast />
   <section class="src-pages-login-base-view d-flex align-items-center justify-content-center">
     <div class="box-login border border-1 rounded-5 align-content-center">
-      <div class="container-fluid">
+      <div class="container-fluid" style="justify-items: center;">
         <router-view></router-view>
       </div>
     </div>
@@ -10,26 +10,8 @@
 
 </template>
 
-<script lang="js">
-
-export default {
-  name: 'src-pages-login-base-view',
-  props: [],
-  mounted() {
-
-  },
-  data() {
-    return {
-
-    }
-  },
-  methods: {
-
-  },
-  computed: {
-
-  }
-}
+<script setup lang="js">
+import { Toast } from 'primevue';
 
 
 </script>
@@ -46,10 +28,6 @@ export default {
   height: 60vh;
   background-color: white;
 }
-.input-login {
-  width: 50%;
-}
-
 .btn-login {
   width: 150px;
 }

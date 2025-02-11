@@ -1,5 +1,5 @@
 <template lang="html">
-
+  <Toast />
   <section class="src-components-home-view">
     <nav class="navbar navbar-expand-lg bg-body-tertiary fs-5">
       <div class="container-fluid">
@@ -16,8 +16,8 @@
                 Restaurantes
               </a>
               <ul class="dropdown-menu">
-                <li v-for="item in restaurants"><a class="dropdown-item"
-                    v-on:click="setRestaurant(item.id)">{{ item.name }}</a></li>
+                <li v-for="item in restaurants"><a class="dropdown-item" @click="setRestaurant(item.id)">{{
+                  item.name }}</a></li>
               </ul>
             </li>
           </ul>
@@ -32,40 +32,32 @@
 
 </template>
 
-<script lang="js">
+<script setup lang="js">
 import RestaurantService from '@/services/RestaurantService';
+import { Toast } from 'primevue';
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
+const restaurants = ref([]);
+const router = useRouter();
+const store = useStore();
 
-export default {
-  name: 'src-components-home-view',
-  props: [],
-  mounted() {
-    RestaurantService.Get().then(response => {
-      this.restaurants = response.data.data
-    })
-  },
-  data() {
-    return {
-      restaurants: []
-
-    }
-  },
-  methods: {
-    setRestaurant(id){
-      this.$router.push('/home/restaurant/' + id)
-      this.$store.commit('storeNameRestaurant', this.restaurants.find(x => x.id == id).name)
-    }
-  },
-  computed: {
-
-  }
+const setRestaurant = (id) => {
+  store.commit('storeNameRestaurant', restaurants.value.find(x => x.id == id).name)
+  router.push({ name: 'restaurant', params: { id } })
 }
 
+onMounted(() => {
+  RestaurantService.Get().then(response => {
+    restaurants.value = response.data.data
+  })
+})
 
 </script>
 
 <style>
-.src-components-home-view{
+.src-components-home-view {
   height: 100vh;
   background-color: #f2f0ef;
 }

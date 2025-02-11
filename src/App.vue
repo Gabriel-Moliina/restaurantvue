@@ -27,4 +27,8 @@ nav a.router-link-exact-active {
 .row{
   --bs-gutter-x: 0 !important;
 }
+
+.p-floatlabel{
+  display: flex !important;
+}
 </style>

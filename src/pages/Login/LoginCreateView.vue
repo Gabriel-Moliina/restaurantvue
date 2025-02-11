@@ -1,59 +1,57 @@
 <template lang="html">
-
   <section class="src-pages-login-create-view">
-    <form class="was-validated">
-      <div class="row justify-content-md-center mb-3">
-        <input type="email" class="form-control input-login" placeholder="Email" aria-label="Username"
-          v-model="userName">
-      </div>
-      <div class="row justify-content-md-center mb-3">
-        <input type="password" class="form-control input-login" placeholder="Senha" aria-label="Senha"
-          v-model="password">
-      </div>
-      <div class="row justify-content-md-center mb-3">
-        <input type="password" class="form-control input-login" placeholder="Confirmar Senha"
-          aria-label="Confirmar Senha" v-model="confirmPassword">
-      </div>
-      <div class="row justify-content-md-center mb-3">
-        <button v-on:click.prevent="register" type="submit" class="btn btn-success btn-login">Confirmar</button>
-      </div>
-      <div class="row justify-content-md-center">
-        <button v-on:click.prevent="$router.push('/login')" class="btn btn-success btn-login">Voltar</button>
-      </div>
-    </form>
+    <div class="row justify-content-md-center mb-4">
+      <FloatLabel>
+        <InputText id="email" type="email" v-model="userData.userName" />
+        <label for="email">Email</label>
+      </FloatLabel>
+    </div>
+    <div class="row justify-content-md-center mb-4">
+      <FloatLabel>
+        <InputText id="password" type="password" v-model="userData.password" />
+        <label for="password">Senha</label>
+      </FloatLabel>
+    </div>
+    <div class="row justify-content-md-center mb-4">
+      <FloatLabel>
+        <InputText id="confirmPassword" type="password" v-model="userData.confirmPassword" />
+        <label for="confirmPassword">Confirmar Senha</label>
+      </FloatLabel>
+    </div>
+    <div class="row justify-content-md-center mb-3">
+      <Button @click="register()" class="btn-login" label="Confirmar"></Button>
+    </div>
+    <div class="row justify-content-md-center">
+      <Button @click="$router.push('/login')" class="btn-login" label="Voltar"></Button>
+    </div>
   </section>
 
 </template>
 
-<script>
+<script setup lang="js">
 import UserService from '@/services/UserService';
+import { ref } from 'vue';
+import { FloatLabel, InputText, Button } from 'primevue';
+import { useToastService } from '@/shared/ToastService';
+import { useRouter } from 'vue-router';
 
-export default {
-  name: 'src-pages-login-create-view',
-  props: [],
-  mounted() {
+const { showToast } = useToastService();
+const router = useRouter();
 
-  },
-  data() {
-    return {
-      userName: '',
-      password: '',
-      confirmPassword: ''
-    }
-  },
-  methods: {
-    register() {
-      UserService.Create(this.userName, this.password, this.confirmPassword)
-        .then(response => {
-          sessionStorage.setItem("token", response.data.data.token);
-        }).catch(reseponse => {
+const userData = ref({
+  userName: '',
+  password: '',
+  confirmPassword: ''
+})
 
-        })
-    }
-  },
-  computed: {
-
-  }
+const register = () => {
+  UserService.Create(userData.value.userName, userData.value.password, userData.value.confirmPassword)
+    .then(response => {
+      sessionStorage.setItem("token", response.data.data.token);
+      router.push({ name: 'loginCreate' })
+    }).catch(err => {
+      showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
+    });
 }
 
 

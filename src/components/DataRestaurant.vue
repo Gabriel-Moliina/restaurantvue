@@ -1,5 +1,4 @@
 <template lang="html">
-  <Toast />
   <div class="row justify-content-end mb-2">
     <div class="col-1 text-end">
       <Button severity="contrast" icon="pi pi-plus" @click="showCreateTable()" />
@@ -38,9 +37,9 @@
       </div>
     </div>
     <div class="row">
-      <label for="email" class="font-semibold w-24">Capacidade da mesa</label>
+      <label for="capacity" class="font-semibold w-24">Capacidade da mesa</label>
       <div class="col-md-12">
-        <InputText v-model="tableEdit.capacity" id="email" class="flex-auto" autocomplete="off" />
+        <InputText v-model="tableEdit.capacity" id="capacity" class="flex-auto" autocomplete="off" />
       </div>
     </div>
     <div class="row m-2 justify-content-end">
@@ -68,7 +67,7 @@
     <div class="row">
       <label for="email" class="font-semibold w-24">Email do cliente</label>
       <div class="col-md-12">
-        <InputText v-model="customerEmail" id="email" class="flex-auto" autocomplete="off" />
+        <InputText fluid v-model="customerEmail" id="email" class="flex-auto" autocomplete="off" />
       </div>
     </div>
     <div class="row m-2 justify-content-end">
@@ -92,7 +91,7 @@
     <div class="row">
       <label for="capacity" class="font-semibold w-24">Capacidade</label>
       <div class="col-md-12">
-        <InputText v-model="tableCreate.capacity" id="capacity" class="flex-auto" autocomplete="off" />
+        <InputNumber v-model="tableCreate.capacity" id="capacity" class="flex-auto" autocomplete="off" />
       </div>
     </div>
     <div class="row m-2 justify-content-end">
@@ -111,20 +110,12 @@
 <script setup lang="js">
 import { ref, onMounted } from 'vue';
 import RestaurantService from '@/services/RestaurantService';
-import { DataTable } from 'primevue';
-import Column from 'primevue/column';
-import Button from 'primevue/button';
+import { DataTable, Column, Button, Dialog, InputText, DatePicker, InputNumber } from 'primevue';
 import { useRoute } from 'vue-router';
-import { useToast } from "primevue/usetoast";
-import Toast from 'primevue/toast';
-import Dialog from 'primevue/dialog';
-import InputText from 'primevue/inputtext';
-import DatePicker from 'primevue/datepicker';
 import ReservationService from '@/services/ReservationService';
 import TableService from '@/services/TableService';
+import { useToastService } from '@/shared/ToastService';
 
-
-const toast = useToast();
 const route = useRoute();
 
 const restaurantId = route.params.id;
@@ -132,6 +123,7 @@ const visibleEdit = ref(false);
 const visibleReserve = ref(false);
 const visibleTableCreate = ref(false);
 const tables = ref();
+const { showToast } = useToastService();
 const dialogEditHeader = ref('');
 const dialogReserveHeader = ref('');
 const customerEmail = ref('');
@@ -163,7 +155,7 @@ const confirmEdit = () => {
     identification: tableEdit.value.identification,
     restaurantId: tableEdit.value.restaurantId,
   }
-
+  
   TableService.Create(table)
     .then(response => {
       showToast('success', "Sucesso", 'Mesa cadastrada com sucesso!');
@@ -237,7 +229,7 @@ const confirmCreateTable = () => {
     capacity: tableCreate.value.capacity,
     restaurantId: restaurantId
   };
-
+  console.log(table)
   TableService.Create(table)
     .then(response => {
       showToast('success', 'Sucesso', 'Mesa cadastrada com sucesso')
@@ -246,10 +238,6 @@ const confirmCreateTable = () => {
     }).catch(err => {
       showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
     });
-}
-
-const showToast = (severity, info, detail) => {
-  toast.add({ severity, summary: info, detail, life: 3000 });
 }
 
 const loadDataTable = () => {

@@ -9,30 +9,8 @@
 
 </template>
 
-<script lang="js">
+<script setup lang="js">
 import DataRestaurant from './DataRestaurant.vue';
-
-export default {
-  name: 'src-components-restaurant-view',
-  props: [],
-  components: {
-    DataRestaurant
-  },
-  mounted() {
-  },
-  data() {
-    return {
-      tables: [],
-    }
-  },
-  methods: {
-
-  },
-  computed: {
-
-  }
-}
-
 
 </script>
 

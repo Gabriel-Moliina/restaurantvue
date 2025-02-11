@@ -16,20 +16,24 @@ const routes = [
     children: [
       {
         path: 'create',
+        name: 'loginCreate',
         component: LoginCreateView
       },
       {
         path: '',
+        name: 'login',
         component: LoginView
       }
     ]
   },
   {
     path: '/home',
+    name: 'home',
     component: HomeView,
     children: [
       {
         path: 'restaurant/:id',
+        name: 'restaurant',
         component: RestaurantView
       }
     ]
