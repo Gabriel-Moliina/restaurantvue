@@ -9,8 +9,12 @@ class TableService extends HttpBaseService {
     return this.api.get(`/${id}`);
   }
 
-  Edit(tableEdit) {
-    return this.api.get();
+  Create(table){
+    return this.api.post('/Create', table);
+  }
+
+  Release(tableChangeStatus) {
+    return this.api.post('/Release', tableChangeStatus);
   }
 }
 

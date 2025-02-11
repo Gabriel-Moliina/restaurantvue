@@ -16,8 +16,8 @@
                 Restaurantes
               </a>
               <ul class="dropdown-menu">
-                <li v-for="item in restaurants"><a class="dropdown-item" :href="'/home/restaurant/' + item.id"
-                    v-on:click="restaurantName = item.name">{{ item.name }}</a></li>
+                <li v-for="item in restaurants"><a class="dropdown-item"
+                    v-on:click="setRestaurant(item.id)">{{ item.name }}</a></li>
               </ul>
             </li>
           </ul>
@@ -52,7 +52,10 @@ export default {
     }
   },
   methods: {
-
+    setRestaurant(id){
+      this.$router.push('/home/restaurant/' + id)
+      this.restaurantName = this.restaurants.find(x => x.id == id).name
+    }
   },
   computed: {
 
