@@ -3,7 +3,7 @@
   <section class="src-components-home-view">
     <nav class="navbar navbar-expand-lg bg-body-tertiary fs-5">
       <div class="container-fluid">
-        <a class="navbar-brand fs-3" href="#">{{ this.restaurantName }}</a>
+        <span class="navbar-brand fs-3" href="#">{{ $store.state.restaurant.name }}</span>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -46,7 +46,6 @@ export default {
   },
   data() {
     return {
-      restaurantName: 'Selecione um restaurante',
       restaurants: []
 
     }
@@ -54,7 +53,7 @@ export default {
   methods: {
     setRestaurant(id){
       this.$router.push('/home/restaurant/' + id)
-      this.restaurantName = this.restaurants.find(x => x.id == id).name
+      this.$store.commit('storeNameRestaurant', this.restaurants.find(x => x.id == id).name)
     }
   },
   computed: {

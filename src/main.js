@@ -5,8 +5,9 @@ import 'primeicons/primeicons.css'
 import PrimeVue from 'primevue/config'
 import Aura from '@primevue/themes/aura'
 import ToastService from 'primevue/toastservice';
+import store from './store'
 
-createApp(App).use(PrimeVue, {
+createApp(App).use(store).use(PrimeVue, {
     theme:{
         preset: Aura,
         options: {
