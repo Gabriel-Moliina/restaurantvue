@@ -41,7 +41,7 @@
     </div>
     <div class="row m-2 justify-content-end">
       <div class="col-3">
-        <Button type="button" label="Excluir" severity="danger" @click="visibleEdit = false" raised rounded
+        <Button type="button" label="Excluir" severity="danger" @click="deleteTable()" raised rounded
           size="small"></Button>
       </div>
       <div class="col-3">
@@ -176,6 +176,16 @@ const release = (id) => {
     tableId: id
   }).then(response => {
     showToast('success', 'Sucesso', 'Mesa liberada')
+    loadDataTable()
+  }).catch(err => {
+    showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
+  });
+}
+
+const deleteTable = () => {
+  TableService.Delete(tableEdit.value.id)
+  .then(response => {
+    showToast('success', 'Sucesso', 'Mesa excluída com sucesso')
     loadDataTable()
   }).catch(err => {
     showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)

@@ -16,6 +16,10 @@ class TableService extends HttpBaseService {
   Release(tableChangeStatus) {
     return this.api.post('/Release', tableChangeStatus);
   }
+
+  Delete(id) {
+    return this.api.delete('/' + id);
+  }
 }
 
 export default new TableService();
