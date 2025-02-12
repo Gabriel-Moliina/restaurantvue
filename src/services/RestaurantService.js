@@ -1,17 +1,19 @@
-import HttpBaseService from './base/HttpBaseService';
+import { useAxios } from "./base/HttpBaseService";
 
-class RestaurantService extends HttpBaseService {
-  constructor() {
-    super('restaurant');
+export const useRestaurantService = () => {
+
+  const { api } = useAxios('restaurant');
+
+  const GetById = (id) => {
+    return api.get("/" + id);
   }
 
-  GetById(id) {
-    return this.api.get("/" + id);
+  const Get = () => {
+    return api.get();
   }
 
-  Get() {
-    return this.api.get();
+  return {
+    GetById,
+    Get
   }
 }
-
-export default new RestaurantService();

@@ -33,7 +33,8 @@
 </template>
 
 <script setup lang="js">
-import RestaurantService from '@/services/RestaurantService';
+
+import { useRestaurantService } from '@/services/RestaurantService';
 import { Toast } from 'primevue';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -42,6 +43,7 @@ import { useStore } from 'vuex';
 const restaurants = ref([]);
 const router = useRouter();
 const store = useStore();
+const restaurantService = useRestaurantService();
 
 const setRestaurant = (id) => {
   store.commit('storeNameRestaurant', restaurants.value.find(x => x.id == id).name)
@@ -49,7 +51,7 @@ const setRestaurant = (id) => {
 }
 
 onMounted(() => {
-  RestaurantService.Get().then(response => {
+  restaurantService.Get().then(response => {
     restaurants.value = response.data.data
   })
 })

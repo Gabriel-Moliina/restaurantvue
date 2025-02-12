@@ -27,21 +27,22 @@
 
 <script setup lang="js">
 
-import UserService from '@/services/UserService';
+import UserService, { useUserService } from '@/services/UserService';
 import { InputText, Button, FloatLabel } from 'primevue';
 import { ref } from 'vue';
 import { useToastService } from '@/shared/ToastService';
 import { useRouter } from 'vue-router';
 
+const userService = useUserService();
 const router = useRouter();
 const userName = ref('')
 const password = ref('')
 const { showToast } = useToastService();
 
 const login = () => {
-  UserService.Login(userName.value, password.value)
+  userService.Login(userName.value, password.value)
     .then(response => {
-      sessionStorage.setItem("token", response.data.data.token);
+      localStorage.setItem("token", response.data.data.token);
       router.push({ name: 'home' })
     }).catch(err => {
       showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)

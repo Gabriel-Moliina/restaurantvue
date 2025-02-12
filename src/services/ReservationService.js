@@ -1,17 +1,19 @@
-import HttpBaseService from './base/HttpBaseService';
+import { useAxios } from "./base/HttpBaseService";
 
-class ReservationService extends HttpBaseService {
-  constructor() {
-    super('reservation');
+export const useReservationService = () => {
+
+  const { api } = useAxios('reservation');
+
+  const Create = (tableId, date, email) => {
+    return api.post("/", { tableId, date, email });
   }
 
-  Create(tableId, date, email) {
-    return this.api.post("/", { tableId, date, email });
+  const Cancel = (id) => {
+    return api.delete("/" + id);
   }
 
-  Cancel(id) {
-    return this.api.delete("/" + id);
+  return {
+    Create,
+    Cancel
   }
 }
-
-export default new ReservationService();

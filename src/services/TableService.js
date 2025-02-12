@@ -1,25 +1,29 @@
-import HttpBaseService from "./base/HttpBaseService";
+import { useAxios } from "./base/HttpBaseService";
 
-class TableService extends HttpBaseService {
-  constructor() {
-    super('table');
+export const useTableService = () => {
+
+  const { api } = useAxios('table');
+
+  const GetById = (id) => {
+    return api.get(`/${id}`);
   }
 
-  GetById(id) {
-    return this.api.get(`/${id}`);
+  const Create = (table) => {
+    return api.post('/Create', table);
   }
 
-  Create(table){
-    return this.api.post('/Create', table);
+  const Release = (tableChangeStatus) => {
+    return api.post('/Release', tableChangeStatus);
   }
 
-  Release(tableChangeStatus) {
-    return this.api.post('/Release', tableChangeStatus);
+  const Delete = (id) => {
+    return api.delete('/' + id);
   }
 
-  Delete(id) {
-    return this.api.delete('/' + id);
+  return {
+    GetById,
+    Create,
+    Release,
+    Delete
   }
 }
-
-export default new TableService();

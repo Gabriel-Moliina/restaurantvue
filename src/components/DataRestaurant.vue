@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="row justify-content-end mb-2">
     <div class="col-1 text-end">
-      <Button severity="contrast" icon="pi pi-plus" @click="showCreateTable()" />
+      <Button severity="contrast" icon="pi pi-plus" @click="visibleTableCreate = true" />
     </div>
   </div>
   <div class="card">
@@ -61,7 +61,7 @@
     <div class="row">
       <label for="identification" class="font-semibold w-24">Selecione um horário</label>
       <div class="col-md-12">
-        <DatePicker id="datepicker-24h" v-model="datetime24h" showTime hourFormat="24" />
+        <DatePicker id="datepicker-24h" v-model="datetime24h" showTime dateFormat="dd/mm/yy" hourFormat="24" />
       </div>
     </div>
     <div class="row">
@@ -81,58 +81,36 @@
     </div>
   </Dialog>
 
-  <Dialog v-model:visible="visibleTableCreate" modal header="Criar nova mesa" :style="{ width: '25rem' }">
-    <div class="row">
-      <label for="identification" class="font-semibold w-24">Identificação da mesa</label>
-      <div class="col-md-12">
-        <InputText v-model="tableCreate.identification" id="identification" class="flex-auto" autocomplete="off" />
-      </div>
-    </div>
-    <div class="row">
-      <label for="capacity" class="font-semibold w-24">Capacidade</label>
-      <div class="col-md-12">
-        <InputNumber v-model="tableCreate.capacity" id="capacity" class="flex-auto" autocomplete="off" />
-      </div>
-    </div>
-    <div class="row m-2 justify-content-end">
-      <div class="col-3">
-        <Button v-on:click="tableCreate = {}" type="button" label="Cancelar" severity="secondary"
-          @click="visibleTableCreate = false" raised rounded size="small"></Button>
-      </div>
-      <div class="col-3">
-        <Button type="button" label="Criar" @click="confirmCreateTable()" raised rounded size="small"></Button>
-      </div>
-    </div>
-  </Dialog>
-
+  <DialogCreate v-model:visible="visibleTableCreate" />
 </template>
 
 <script setup lang="js">
+
 import { ref, onMounted } from 'vue';
-import RestaurantService from '@/services/RestaurantService';
+import { useRestaurantService } from '@/services/RestaurantService';
 import { DataTable, Column, Button, Dialog, InputText, DatePicker, InputNumber } from 'primevue';
 import { useRoute } from 'vue-router';
-import ReservationService from '@/services/ReservationService';
-import TableService from '@/services/TableService';
+import { useReservationService } from '@/services/ReservationService';
 import { useToastService } from '@/shared/ToastService';
+import DialogCreate from './dialog-create/DialogCreate.vue';
+import { useTableService } from '@/services/TableService';
 
 const route = useRoute();
 
 const restaurantId = route.params.id;
+
 const visibleEdit = ref(false);
 const visibleReserve = ref(false);
 const visibleTableCreate = ref(false);
+
 const tables = ref();
 const { showToast } = useToastService();
+
 const dialogEditHeader = ref('');
 const dialogReserveHeader = ref('');
+
 const customerEmail = ref('');
 const datetime24h = ref();
-const tableCreate = ref({
-  identification: '',
-  capacity: '',
-  restaurantId: restaurantId
-});
 
 const tableEdit = ref({
   capacity: 0,
@@ -148,6 +126,10 @@ const editTable = (data) => {
   tableEdit.value = { ...data }
 };
 
+const tableService = useTableService();
+const reservationService = useReservationService();
+const restaurantService = useRestaurantService();
+
 const confirmEdit = () => {
   const table = {
     capacity: tableEdit.value.capacity,
@@ -156,9 +138,9 @@ const confirmEdit = () => {
     restaurantId: tableEdit.value.restaurantId,
   }
   
-  TableService.Create(table)
+  tableService.Create(table)
     .then(response => {
-      showToast('success', "Sucesso", 'Mesa cadastrada com sucesso!');
+      showToast('success', "Sucesso", 'Mesa editada com sucesso!');
       visibleEdit.value = false;
       loadDataTable();
     })
@@ -168,13 +150,15 @@ const confirmEdit = () => {
 }
 
 const reserve = (data) => {
+  customerEmail.value = '';
+  datetime24h.value = new Date().toString();
   dialogReserveHeader.value = 'Reservar mesa ' + data.identification
   visibleReserve.value = true;
   tableEdit.value = { ...data }
 }
 
 const confirmReserve = () => {
-  ReservationService.Create(tableEdit.value.id, datetime24h.value, customerEmail.value)
+  reservationService.Create(tableEdit.value.id, datetime24h.value, customerEmail.value)
     .then(response => {
       showToast('success', "Sucesso", "Mesa reservada!")
       visibleReserve.value = false;
@@ -186,7 +170,7 @@ const confirmReserve = () => {
 }
 
 const cancelReserve = (tableId) => {
-  ReservationService.Cancel(tableId)
+  reservationService.Cancel(tableId)
     .then(response => {
       showToast('success', "Sucesso", "A reserva foi cancelada!")
       visibleReserve.value = false;
@@ -198,7 +182,7 @@ const cancelReserve = (tableId) => {
 }
 
 const release = (id) => {
-  TableService.Release({
+  tableService.Release({
     tableId: id
   }).then(response => {
     showToast('success', 'Sucesso', 'Mesa liberada')
@@ -209,7 +193,7 @@ const release = (id) => {
 }
 
 const deleteTable = () => {
-  TableService.Delete(tableEdit.value.id)
+  tableService.Delete(tableEdit.value.id)
     .then(response => {
       showToast('success', 'Sucesso', 'Mesa excluída com sucesso')
       visibleEdit.value = false;
@@ -220,28 +204,12 @@ const deleteTable = () => {
 }
 
 const showCreateTable = () => {
+  tableCreate.value = {}
   visibleTableCreate.value = true;
 }
 
-const confirmCreateTable = () => {
-  const table = {
-    identification: tableCreate.value.identification,
-    capacity: tableCreate.value.capacity,
-    restaurantId: restaurantId
-  };
-  console.log(table)
-  TableService.Create(table)
-    .then(response => {
-      showToast('success', 'Sucesso', 'Mesa cadastrada com sucesso')
-      visibleTableCreate.value = true;
-      loadDataTable()
-    }).catch(err => {
-      showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
-    });
-}
-
 const loadDataTable = () => {
-  RestaurantService.GetById(restaurantId).then(response => {
+  restaurantService.GetById(restaurantId).then(response => {
     tables.value = response.data.data.tables;
   })
 }

@@ -47,8 +47,7 @@ const userData = ref({
 const register = () => {
   UserService.Create(userData.value.userName, userData.value.password, userData.value.confirmPassword)
     .then(response => {
-      sessionStorage.setItem("token", response.data.data.token);
-      router.push({ name: 'loginCreate' })
+      router.push({ name: 'login' })
     }).catch(err => {
       showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
     });

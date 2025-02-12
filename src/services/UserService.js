@@ -1,17 +1,19 @@
-import HttpBaseService from "./base/HttpBaseService";
+import { useAxios } from "./base/HttpBaseService";
 
-class UserService extends HttpBaseService {
-  constructor() {
-    super('user')
+export const useUserService= () => {
+
+const { api } = useAxios('user');
+
+  const Login = (email, password) => {
+    return api.post('/login', { Email: email, Password: password });
   }
 
-  Login(email, password) {
-    return this.api.post('/login', { Email: email, Password: password });
+  const Create = (email, password, confirmPassword) => {
+    return api.post('/create', { Email: email, Password: password, ConfirmPassword: confirmPassword });
   }
 
-  Create(email, password, confirmPassword){
-    return this.api.post('/create', { Email: email, Password: password, ConfirmPassword: confirmPassword });
+  return {
+    Login,
+    Create
   }
 }
-
-export default new UserService();
