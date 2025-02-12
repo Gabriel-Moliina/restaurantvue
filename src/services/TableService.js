@@ -9,7 +9,7 @@ export const useTableService = () => {
   }
 
   const Create = (table) => {
-    return api.post('/Create', table);
+    return api.post('/', table);
   }
 
   const Release = (tableChangeStatus) => {

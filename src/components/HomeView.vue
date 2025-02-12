@@ -16,7 +16,7 @@
                 Restaurantes
               </a>
               <ul class="dropdown-menu">
-                <li v-for="item in restaurants"><a class="dropdown-item" @click="setRestaurant(item.id)">{{
+                <li v-on:mouseover="console.log(item.id)" v-for="item in restaurants"><a class="dropdown-item" @click="setRestaurant(item.id)">{{
                   item.name }}</a></li>
                 <li>
                   <hr class="dropdown-divider">
@@ -39,17 +39,20 @@
   </section>
 
 
-  <DialogRestaurant v-model:visible="visibleDialogRestaurantCreate" />
+  <DialogCreateRestaurant 
+    v-model:visible="visibleDialogRestaurantCreate"
+    @close-dialog="closeDialog"
+    />
 </template>
 
 <script setup lang="js">
 
 import { useRestaurantService } from '@/services/RestaurantService';
 import { Toast } from 'primevue';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import DialogRestaurant from './dialog-restaurant/DialogCreateRestaurant.vue';
+import DialogCreateRestaurant from './dialog-create-restaurant/DialogCreateRestaurant.vue';
 
 const restaurants = ref([]);
 const router = useRouter();
@@ -66,6 +69,10 @@ const getRestaurants = () => {
   restaurantService.Get().then(response => {
     restaurants.value = response.data.data
   })
+}
+
+const closeDialog = () => {
+  visibleDialogRestaurantCreate.value = false;
 }
 
 </script>

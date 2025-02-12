@@ -44,10 +44,10 @@ const { showToast } = useToastService();
 const login = () => {
   userService.Login(userName.value, password.value)
     .then(response => {
-      localStorage.setItem("token", response.data.data.token);
+      localStorage.setItem('token', response.data.data.token);
       router.push({ name: 'home' })
     }).catch(err => {
-      showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
+      showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
     });
 }
 

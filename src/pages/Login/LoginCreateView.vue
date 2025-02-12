@@ -50,7 +50,7 @@ const register = () => {
     .then(response => {
       router.push({ name: 'login' })
     }).catch(err => {
-      showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
+      showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
     });
 }
 

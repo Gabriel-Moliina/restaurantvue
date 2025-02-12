@@ -51,7 +51,7 @@
 
 import { ref, onMounted, watch } from 'vue';
 import { useRestaurantService } from '@/services/RestaurantService';
-import { DataTable, Column, Button, Dialog, InputText, DatePicker, InputNumber } from 'primevue';
+import { DataTable, Column, Button } from 'primevue';
 import { useRoute } from 'vue-router';
 import { useReservationService } from '@/services/ReservationService';
 import { useToastService } from '@/shared/ToastService';
@@ -109,12 +109,12 @@ const closeDialogReserve = (args) => {
 const cancelReserve = (tableId) => {
   reservationService.Cancel(tableId)
     .then(response => {
-      showToast('success', "Sucesso", "A reserva foi cancelada!")
+      showToast('success', 'Sucesso', 'A reserva foi cancelada!')
       visibleTableReserve.value = false;
       loadDataTable();
     })
     .catch(err => {
-      showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
+      showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
     });
 }
 
@@ -125,7 +125,7 @@ const release = (id) => {
     showToast('success', 'Sucesso', 'Mesa liberada')
     loadDataTable()
   }).catch(err => {
-    showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
+    showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
   });
 }
 

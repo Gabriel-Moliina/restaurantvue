@@ -50,7 +50,7 @@ const dialogHeader = ref('');
 const tableEdit = ref({
     capacity: 0,
     id: 0,
-    identification: "",
+    identification: '',
     restaurantId: restaurantId.value,
     reserved: 0
 })
@@ -65,11 +65,11 @@ const confirmEdit = () => {
 
     tableService.Create(table)
         .then(response => {
-            showToast('success', "Sucesso", 'Mesa editada com sucesso!');
+            showToast('success', 'Sucesso', 'Mesa editada com sucesso!');
             emit('closeDialog')
         })
         .catch(err => {
-            showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
+            showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
         })
 }
 
@@ -79,7 +79,7 @@ const deleteTable = () => {
             showToast('success', 'Sucesso', 'Mesa excluída com sucesso')
             emit('closeDialog');
         }).catch(err => {
-            showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
+            showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
         });
 }
 
@@ -89,7 +89,7 @@ const onShow = () => {
             tableEdit.value = data.data
             dialogHeader.value = 'Editar mesa ' + tableEdit.value.identification
         }).catch(err => {
-            showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
+            showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
         });
 }
 

@@ -1,15 +1,16 @@
 <template>
     <Dialog v-on:show="onShow" modal :header="dialogHeader" :style="{ width: '25rem' }">
-        <div class="row">
-            <label for="identification" class="font-semibold w-24">Selecione um horário</label>
+        <div class="row mb-4">
             <div class="col-md-12">
-                <DatePicker id="datepicker-24h" v-model="datetime24h" showTime dateFormat="dd/mm/yy" hourFormat="24" />
+                <DatePicker showIcon id="datepicker-24h" v-model="datetime24h" showTime dateFormat="dd/mm/yy" hourFormat="24" iconDisplay="input" />
             </div>
         </div>
-        <div class="row">
-            <label for="email" class="font-semibold w-24">Email do cliente</label>
+        <div class="row mb-4">
             <div class="col-md-12">
-                <InputText fluid v-model="customerEmail" id="email" class="flex-auto" autocomplete="off" />
+                <FloatLabel>
+                    <InputText fluid v-model="customerEmail" id="email" class="flex-auto" autocomplete="off" />
+                    <label for="email">Email do cliente</label>
+                </FloatLabel>
             </div>
         </div>
         <div class="row m-2 justify-content-end">
@@ -25,7 +26,7 @@
 </template>
 
 <script setup lang="js">
-import { Dialog, DatePicker, InputText, Button } from 'primevue';
+import { Dialog, DatePicker, InputText, Button, FloatLabel } from 'primevue';
 import { useTableService } from '@/services/TableService';
 import { ref } from 'vue'
 import { useReservationService } from '@/services/ReservationService';
@@ -55,19 +56,19 @@ const onShow = () => {
         .then(({ data }) => {
             dialogHeader.value = 'Reservar mesa ' + data.data.identification
         }).catch(err => {
-            showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
+            showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
         });
 }
 
 const confirmReserve = () => {
-  reservationService.Create(tableEdit.value.id, datetime24h.value, customerEmail.value)
-    .then(response => {
-      showToast('success', "Sucesso", "Mesa reservada!")
-      emit('closeDialog')
-    })
-    .catch(err => {
-      showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
-    })
+    reservationService.Create(props.tableId, datetime24h.value, customerEmail.value)
+        .then(response => {
+            showToast('success', 'Sucesso', 'Mesa reservada!')
+            emit('closeDialog')
+        })
+        .catch(err => {
+            showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
+        })
 }
 </script>
 
