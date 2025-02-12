@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="js">
-import UserService from '@/services/UserService';
+import { useUserService } from '@/services/UserService';
 import { ref } from 'vue';
 import { FloatLabel, InputText, Button } from 'primevue';
 import { useToastService } from '@/shared/ToastService';
@@ -37,6 +37,7 @@ import { useRouter } from 'vue-router';
 
 const { showToast } = useToastService();
 const router = useRouter();
+const userService = useUserService();
 
 const userData = ref({
   userName: '',
@@ -45,7 +46,7 @@ const userData = ref({
 })
 
 const register = () => {
-  UserService.Create(userData.value.userName, userData.value.password, userData.value.confirmPassword)
+  userService.Create(userData.value.userName, userData.value.password, userData.value.confirmPassword)
     .then(response => {
       router.push({ name: 'login' })
     }).catch(err => {

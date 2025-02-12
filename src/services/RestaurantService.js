@@ -4,6 +4,10 @@ export const useRestaurantService = () => {
 
   const { api } = useAxios('restaurant');
 
+  const Create = (name) => {
+    return api.post("/", { name })
+  }
+
   const GetById = (id) => {
     return api.get("/" + id);
   }
@@ -14,6 +18,7 @@ export const useRestaurantService = () => {
 
   return {
     GetById,
-    Get
+    Get,
+    Create
   }
 }

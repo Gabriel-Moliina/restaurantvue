@@ -1,5 +1,5 @@
 <template>
-    <Dialog modal header="Criar nova mesa" :style="{ width: '25rem' }">
+    <Dialog v-on:show="tableCreate = {}" modal header="Criar nova mesa" :style="{ width: '25rem' }">
         <div class="row">
             <label for="identification" class="font-semibold w-24">Identificação da mesa</label>
             <div class="col-md-12">
@@ -15,8 +15,8 @@
         </div>
         <div class="row m-2 justify-content-end">
             <div class="col-3">
-                <Button v-on:click="tableCreate = {}" type="button" label="Cancelar" severity="secondary" @click=""
-                    raised rounded size="small"></Button>
+                <Button type="button" label="Cancelar" severity="secondary"
+                    @click="$emit('closeDialog', { cancelEvent: true })" raised rounded size="small"></Button>
             </div>
             <div class="col-3">
                 <Button type="button" label="Criar" @click="confirmCreateTable()" raised rounded size="small"></Button>
@@ -31,17 +31,19 @@ import { useRoute } from 'vue-router';
 import { ref } from 'vue'
 import { InputNumber, Button, Dialog, InputText } from 'primevue';
 import { useTableService } from '@/services/TableService';
+import { useToastService } from '@/shared/ToastService';
 
 const route = useRoute();
 const tableService = useTableService();
-
+const { showToast } = useToastService()
 const restaurantId = route.params.id;
-
 const tableCreate = ref({
     identification: '',
     capacity: '',
     restaurantId: restaurantId
 });
+
+const emit = defineEmits(['closeDialog'])
 
 const confirmCreateTable = () => {
     const table = {
@@ -53,8 +55,7 @@ const confirmCreateTable = () => {
     tableService.Create(table)
         .then(response => {
             showToast('success', 'Sucesso', 'Mesa cadastrada com sucesso')
-            props.isVisible.value = true;
-            loadDataTable()
+            emit('closeDialog')
         }).catch(err => {
             showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
         });

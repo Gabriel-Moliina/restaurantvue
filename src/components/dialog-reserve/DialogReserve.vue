@@ -1,0 +1,74 @@
+<template>
+    <Dialog v-on:show="onShow" modal :header="dialogHeader" :style="{ width: '25rem' }">
+        <div class="row">
+            <label for="identification" class="font-semibold w-24">Selecione um horário</label>
+            <div class="col-md-12">
+                <DatePicker id="datepicker-24h" v-model="datetime24h" showTime dateFormat="dd/mm/yy" hourFormat="24" />
+            </div>
+        </div>
+        <div class="row">
+            <label for="email" class="font-semibold w-24">Email do cliente</label>
+            <div class="col-md-12">
+                <InputText fluid v-model="customerEmail" id="email" class="flex-auto" autocomplete="off" />
+            </div>
+        </div>
+        <div class="row m-2 justify-content-end">
+            <div class="col-3">
+                <Button type="button" label="Cancelar" severity="secondary"
+                    @click="$emit('closeDialog', { cancelEvent: false })" raised rounded size="small"></Button>
+            </div>
+            <div class="col-3">
+                <Button type="button" label="Reservar" @click="confirmReserve()" raised rounded size="small"></Button>
+            </div>
+        </div>
+    </Dialog>
+</template>
+
+<script setup lang="js">
+import { Dialog, DatePicker, InputText, Button } from 'primevue';
+import { useTableService } from '@/services/TableService';
+import { ref } from 'vue'
+import { useReservationService } from '@/services/ReservationService';
+import { useToastService } from '@/shared/ToastService';
+
+const tableService = useTableService();
+const reservationService = useReservationService();
+const dialogHeader = ref('');
+const customerEmail = ref('');
+const datetime24h = ref();
+const { showToast } = useToastService();
+
+const emit = defineEmits(['closeDialog'])
+
+const props = defineProps({
+    tableId: Number
+})
+
+const clearForm = () => {
+    customerEmail.value = '';
+    datetime24h.value = new Date();
+};
+
+const onShow = () => {
+    clearForm();
+    tableService.GetById(props.tableId)
+        .then(({ data }) => {
+            dialogHeader.value = 'Reservar mesa ' + data.data.identification
+        }).catch(err => {
+            showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
+        });
+}
+
+const confirmReserve = () => {
+  reservationService.Create(tableEdit.value.id, datetime24h.value, customerEmail.value)
+    .then(response => {
+      showToast('success', "Sucesso", "Mesa reservada!")
+      emit('closeDialog')
+    })
+    .catch(err => {
+      showToast('error', "Algo deu errado", err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
+    })
+}
+</script>
+
+<style scoped></style>

@@ -10,7 +10,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item dropdown">
+            <li @click="getRestaurants" class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 Restaurantes
@@ -18,6 +18,14 @@
               <ul class="dropdown-menu">
                 <li v-for="item in restaurants"><a class="dropdown-item" @click="setRestaurant(item.id)">{{
                   item.name }}</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li @click="visibleDialogRestaurantCreate = true">
+                  <a class="dropdown-item text-center" href="#">
+                    <i class="pi pi-plus"></i>
+                  </a>
+                </li>
               </ul>
             </li>
           </ul>
@@ -30,6 +38,8 @@
     <router-view></router-view>
   </section>
 
+
+  <DialogRestaurant v-model:visible="visibleDialogRestaurantCreate" />
 </template>
 
 <script setup lang="js">
@@ -39,22 +49,24 @@ import { Toast } from 'primevue';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import DialogRestaurant from './dialog-restaurant/DialogCreateRestaurant.vue';
 
 const restaurants = ref([]);
 const router = useRouter();
 const store = useStore();
 const restaurantService = useRestaurantService();
+const visibleDialogRestaurantCreate = ref(false);
 
 const setRestaurant = (id) => {
   store.commit('storeNameRestaurant', restaurants.value.find(x => x.id == id).name)
   router.push({ name: 'restaurant', params: { id } })
 }
 
-onMounted(() => {
+const getRestaurants = () => {
   restaurantService.Get().then(response => {
     restaurants.value = response.data.data
   })
-})
+}
 
 </script>
 
