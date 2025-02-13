@@ -50,7 +50,6 @@
 <script setup lang="js">
 
 import { ref, onMounted, watch } from 'vue';
-import { useRestaurantService } from '@/services/RestaurantService';
 import { DataTable, Column, Button } from 'primevue';
 import { useRoute } from 'vue-router';
 import { useReservationService } from '@/services/ReservationService';
@@ -80,7 +79,6 @@ const editTable = (data) => {
 
 const tableService = useTableService();
 const reservationService = useReservationService();
-const restaurantService = useRestaurantService();
 
 const reserve = (data) => {
   visibleTableReserve.value = true;

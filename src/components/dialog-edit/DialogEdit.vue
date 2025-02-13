@@ -1,5 +1,5 @@
 <template>
-    <Dialog v-on:show="onShow" modal :header="dialogHeader" :style="{ width: '25rem' }">
+    <Dialog v-on:show="loadTable" modal :header="dialogHeader" :style="{ width: '25rem' }">
         <div class="row">
             <label for="identification" class="font-semibold w-24">Identificação da mesa</label>
             <div class="col-md-12">
@@ -32,7 +32,7 @@
 <script setup lang="js">
 import { Dialog, Button, InputText } from 'primevue';
 import { useRoute } from 'vue-router';
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useTableService } from '@/services/TableService';
 import { useToastService } from '@/shared/ToastService';
 
@@ -83,7 +83,7 @@ const deleteTable = () => {
         });
 }
 
-const onShow = () => {
+const loadTable = () => {
     tableService.GetById(props.tableId)
         .then(({ data }) => {
             tableEdit.value = data.data

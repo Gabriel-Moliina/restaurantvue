@@ -8,12 +8,17 @@ export const useRestaurantService = () => {
     return api.post('', restaurant)
   }
 
+  const GetById = (id) => {
+    return api.get(`/${id}`);
+  }
+
   const Get = () => {
     return api.get();
   }
 
   return {
     Get,
+    GetById,
     Create
   }
 }

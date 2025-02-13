@@ -3,7 +3,8 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     restaurant:{
-      name: 'Selecione um restaurante'
+      name: 'Selecione um restaurante',
+      id: 0
     }
   },
   getters: {
@@ -11,8 +12,9 @@ export default createStore({
   actions: {
   },
   mutations: {
-    storeNameRestaurant(state, name){
+    setStore(state, {id, name}){
       state.restaurant.name = name ?? 'Selecione um restaurante'
+      state.restaurant.id = id ?? 0
     }
   }
 })

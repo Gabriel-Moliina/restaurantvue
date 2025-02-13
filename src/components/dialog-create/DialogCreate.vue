@@ -1,25 +1,18 @@
 <template>
-    <Dialog v-on:show="tableCreate = {}" modal header="Criar nova mesa" :style="{ width: '25rem' }">
-        <div class="row">
-            <label for="identification" class="font-semibold w-24">Identificação da mesa</label>
+    <Dialog :onshow="restaurantName = ''" modal header="Criar novo restaurante" :style="{ width: '25rem' }">
+        <div class="row mb-5">
+            <label for="name-restaurant" class="font-semibold w-24">Nome do Restaurante</label>
             <div class="col-md-12">
-                <InputText v-model="tableCreate.identification" id="identification" class="flex-auto"
-                    autocomplete="off" />
-            </div>
-        </div>
-        <div class="row">
-            <label for="capacity" class="font-semibold w-24">Capacidade</label>
-            <div class="col-md-12">
-                <InputNumber v-model="tableCreate.capacity" id="capacity" class="flex-auto" autocomplete="off" />
+                <InputText fluid v-model="restaurantName" id="name-restaurant" class="flex-auto" autocomplete="off" />
             </div>
         </div>
         <div class="row m-2 justify-content-end">
             <div class="col-3">
                 <Button type="button" label="Cancelar" severity="secondary"
-                    @click="$emit('closeDialog', { cancelEvent: true })" raised rounded size="small"></Button>
+                    @click="$emit('closeDialog', { cancelEvent: false })" raised rounded size="small"></Button>
             </div>
             <div class="col-3">
-                <Button type="button" label="Criar" @click="confirmCreateTable()" raised rounded size="small"></Button>
+                <Button type="button" label="Criar" @click="confirmCreate()" raised rounded size="small"></Button>
             </div>
         </div>
     </Dialog>

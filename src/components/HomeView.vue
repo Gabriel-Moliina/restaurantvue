@@ -3,10 +3,10 @@
   <section class="src-components-home-view">
     <nav class="navbar navbar-expand-lg bg-body-tertiary fs-5">
       <div class="container-fluid">
-        <div class="navbar-brand d-flex">
-        <span class="fs-3" href="#">{{ $store.state.restaurant.name }}</span>
-        <i class="pi pi-pencil" style="font-size: 14px; color: dimgrey;"></i>
-      </div>
+        <div class="navbar-brand">
+          <span class="fs-3 p-2">{{ $store.state.restaurant.name }}</span>
+          <i @click="openDialogCreate($route.params.id)" v-if="$store.state.restaurant.id != 0" class="pi pi-pencil" style="font-size: 14px; color: dimgrey;"></i>
+        </div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -24,7 +24,7 @@
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li @click="visibleDialogRestaurantCreate = true">
+                <li @click="openDialogCreate(0)">
                   <a class="dropdown-item text-center" href="#">
                     <i class="pi pi-plus"></i>
                   </a>
@@ -42,10 +42,11 @@
   </section>
 
 
-  <DialogCreateRestaurant 
-    v-model:visible="visibleDialogRestaurantCreate"
-    @close-dialog="closeDialog"
-    />
+  <DialogSaveRestaurant 
+    :restaurant-id="restaurantId"
+    v-model:visible="visibleDialogSaveRestaurant" 
+    @close-dialog="visibleDialogSaveRestaurant = false;" 
+  />
 </template>
 
 <script setup lang="js">
@@ -53,29 +54,36 @@
 import { useRestaurantService } from '@/services/RestaurantService';
 import { Toast } from 'primevue';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import DialogCreateRestaurant from './dialog-create-restaurant/DialogCreateRestaurant.vue';
+import DialogSaveRestaurant from './dialog-create-restaurant/DialogSaveRestaurant.vue';
 
 const restaurants = ref([]);
 const router = useRouter();
+const route = useRoute();
 const store = useStore();
 const restaurantService = useRestaurantService();
-const visibleDialogRestaurantCreate = ref(false);
+const visibleDialogSaveRestaurant = ref(false);
+
+const restaurantId = ref(route.params.id);
 
 const setRestaurant = (id) => {
-  store.commit('storeNameRestaurant', restaurants.value.find(x => x.id == id).name)
+  const restaurant = restaurants.value.find(x => x.id == id);
+  store.commit('setStore', { id: restaurant.id, name: restaurant.name })
   router.push({ name: 'restaurant', params: { id } })
 }
 
 const getRestaurants = () => {
   restaurantService.Get().then(response => {
     restaurants.value = response.data.data
-  })
+  }).catch(err => {
+    showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
+  });
 }
 
-const closeDialog = () => {
-  visibleDialogRestaurantCreate.value = false;
+const openDialogCreate = (id) => {
+  restaurantId.value = id;
+  visibleDialogSaveRestaurant.value = true;
 }
 
 </script>
