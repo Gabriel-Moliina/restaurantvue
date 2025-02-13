@@ -48,6 +48,7 @@ const userData = ref({
 const register = () => {
   userService.Create(userData.value.userName, userData.value.password, userData.value.confirmPassword)
     .then(response => {
+      showToast('success', 'Sucesso', 'Usuário cadastrado com sucesso!')
       router.push({ name: 'login' })
     }).catch(err => {
       showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)

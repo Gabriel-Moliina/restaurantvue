@@ -34,17 +34,20 @@ import { InputText, Button, FloatLabel } from 'primevue';
 import { ref } from 'vue';
 import { useToastService } from '@/shared/ToastService';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 const userService = useUserService();
 const router = useRouter();
 const userName = ref('')
 const password = ref('')
 const { showToast } = useToastService();
+const store = useStore();
 
 const login = () => {
   userService.Login(userName.value, password.value)
     .then(response => {
       localStorage.setItem('token', response.data.data.token);
+      store.commit('storeNameRestaurant')
       router.push({ name: 'home' })
     }).catch(err => {
       showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)

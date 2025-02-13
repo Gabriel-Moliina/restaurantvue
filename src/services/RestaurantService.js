@@ -4,8 +4,8 @@ export const useRestaurantService = () => {
 
   const { api } = useAxios('restaurant');
 
-  const Create = (name) => {
-    return api.post('/', { name })
+  const Create = (restaurant) => {
+    return api.post('', restaurant)
   }
 
   const Get = () => {

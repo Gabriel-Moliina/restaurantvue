@@ -3,7 +3,10 @@
   <section class="src-components-home-view">
     <nav class="navbar navbar-expand-lg bg-body-tertiary fs-5">
       <div class="container-fluid">
-        <span class="navbar-brand fs-3" href="#">{{ $store.state.restaurant.name }}</span>
+        <div class="navbar-brand d-flex">
+        <span class="fs-3" href="#">{{ $store.state.restaurant.name }}</span>
+        <i class="pi pi-pencil" style="font-size: 14px; color: dimgrey;"></i>
+      </div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -16,7 +19,7 @@
                 Restaurantes
               </a>
               <ul class="dropdown-menu">
-                <li v-on:mouseover="console.log(item.id)" v-for="item in restaurants"><a class="dropdown-item" @click="setRestaurant(item.id)">{{
+                <li v-for="item in restaurants"><a class="dropdown-item" @click="setRestaurant(item.id)">{{
                   item.name }}</a></li>
                 <li>
                   <hr class="dropdown-divider">

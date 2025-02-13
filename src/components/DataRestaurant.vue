@@ -7,21 +7,21 @@
   <div class="card">
     <DataTable :value="tables" tableStyle="min-width: 50rem" scrollable scrollHeight="500px">
       <template #empty> Nenhuma mesa encontrada. </template>
-      <Column field="identification" header="Mesa" bodyStyle="text-align:center" sortable></Column>
-      <Column field="capacity" header="Capacidade" bodyStyle="text-align:center" sortable></Column>
-      <Column header="Editar" bodyStyle="text-align:center">
+      <Column field="identification" header="Mesa" sortable style="width: 40%"></Column>
+      <Column field="capacity" header="Capacidade" sortable></Column>
+      <Column header="Editar" bodyStyle="text-align:center" style="width: 10%">
         <template #body="row">
           <Button severity="contrast" icon="pi pi-pencil" @click="editTable(row.data)" />
         </template>
       </Column>
-      <Column header="Reservar" bodyStyle="text-align:center">
+      <Column header="Reservar" bodyStyle="text-align:center" style="width: 10%">
         <template #body="row">
           <Button v-if="!row.data.reserved" severity="success" icon="pi pi-calendar-clock" @click="reserve(row.data)" />
           <Button v-if="row.data.reserved" severity="danger" icon="pi pi-calendar-clock"
             @click="cancelReserve(row.data.id)" />
         </template>
       </Column>
-      <Column header="Liberar" bodyStyle="text-align:center">
+      <Column header="Liberar" bodyStyle="text-align:center" style="width: 10%">
         <template #body="row">
           <Button v-if="row.data.reserved" severity="info" icon="pi pi-check" @click="release(row.data.id)" />
         </template>
@@ -130,8 +130,8 @@ const release = (id) => {
 }
 
 const loadDataTable = () => {
-  restaurantService.GetById(restaurantId.value).then(response => {
-    tables.value = response.data.data.tables;
+  tableService.GetByRestaurantId(restaurantId.value).then(response => {
+    tables.value = response.data.data;
   })
 }
 

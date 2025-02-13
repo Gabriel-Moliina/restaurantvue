@@ -12,7 +12,7 @@ export default createStore({
   },
   mutations: {
     storeNameRestaurant(state, name){
-      state.restaurant.name = name
+      state.restaurant.name = name ?? 'Selecione um restaurante'
     }
   }
 })

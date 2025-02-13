@@ -35,12 +35,12 @@ import { useToastService } from '@/shared/ToastService';
 
 const route = useRoute();
 const tableService = useTableService();
-const { showToast } = useToastService()
-const restaurantId = route.params.id;
+const { showToast } = useToastService();
+
 const tableCreate = ref({
     identification: '',
     capacity: '',
-    restaurantId: restaurantId
+    restaurantId: 0
 });
 
 const emit = defineEmits(['closeDialog'])
@@ -49,7 +49,7 @@ const confirmCreateTable = () => {
     const table = {
         identification: tableCreate.value.identification,
         capacity: tableCreate.value.capacity,
-        restaurantId: restaurantId
+        restaurantId: route.params.id
     };
 
     tableService.Create(table)

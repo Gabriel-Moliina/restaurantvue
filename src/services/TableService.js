@@ -4,6 +4,10 @@ export const useTableService = () => {
 
   const { api } = useAxios('table');
 
+  const GetByRestaurantId = (id) => {
+    return api.get('GetByRestaurantId/' + id);
+  }
+
   const GetById = (id) => {
     return api.get(`/${id}`);
   }
@@ -13,7 +17,7 @@ export const useTableService = () => {
   }
 
   const Release = (tableChangeStatus) => {
-    return api.post('/Release', tableChangeStatus);
+    return api.post('Release', tableChangeStatus);
   }
 
   const Delete = (id) => {
@@ -24,6 +28,7 @@ export const useTableService = () => {
     GetById,
     Create,
     Release,
-    Delete
+    Delete,
+    GetByRestaurantId
   }
 }
