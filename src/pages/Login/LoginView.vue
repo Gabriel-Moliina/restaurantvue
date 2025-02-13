@@ -1,28 +1,26 @@
 <template lang="html">
 
   <section class="src-pages-login-view">
-    <Form v-slot="$form" :resolver="resolver" :initialValues="initialValues" @submit="onFormSubmit" class="flex flex-col gap-4 w-full sm:w-56">
-      <div class="row justify-content-md-center mb-4">
-        <div class="col-md-12">
-          <FloatLabel>
-            <InputText id="email" type="email" v-model="userName" />
-            <label for="email">Email</label>
-          </FloatLabel>
-        </div>
-      </div>
-      <div class="row justify-content-md-center mb-4">
+    <div class="row justify-content-md-center mb-4">
+      <div class="col-md-12">
         <FloatLabel>
-          <InputText id="password" type="password" v-model="password" />
-          <label for="password">Senha</label>
+          <InputText id="email" type="email" v-model="userName" />
+          <label for="email">Email</label>
         </FloatLabel>
       </div>
-      <div class="row justify-content-md-center mb-3">
-        <Button @click.prevent="login" type="submit" label="Login" class="btn-login"></Button>
-      </div>
-      <div class="row justify-content-md-center">
-        <Button @click="$router.push({ name: 'loginCreate' })" class="btn-login" label="Cadastrar"></Button>
-      </div>
-    </form>
+    </div>
+    <div class="row justify-content-md-center mb-4">
+      <FloatLabel>
+        <InputText id="password" type="password" v-model="password" />
+        <label for="password">Senha</label>
+      </FloatLabel>
+    </div>
+    <div class="row justify-content-md-center mb-3">
+      <Button @click.prevent="login" type="submit" label="Login" class="btn-login"></Button>
+    </div>
+    <div class="row justify-content-md-center">
+      <Button @click="$router.push({ name: 'loginCreate' })" class="btn-login" label="Cadastrar"></Button>
+    </div>
   </section>
 
 </template>

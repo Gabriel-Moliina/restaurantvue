@@ -47,7 +47,8 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
   const isAuthenticated = localStorage.getItem('token');
-  if (!isAuthenticated && to.name !== 'login') 
+  const areaAnnonymous = ['login', 'loginCreate']
+  if (!isAuthenticated && !areaAnnonymous.some(x => x == to.name)) 
     return { name: 'login' }
 })
 
