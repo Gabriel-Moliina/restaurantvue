@@ -12,12 +12,12 @@ export const useRestaurantService = () => {
     return api.get(`/${id}`);
   }
 
-  const Get = () => {
-    return api.get();
+  const GetByUserId = (id) => {
+    return api.get('GetByUserId/' + id);
   }
 
   return {
-    Get,
+    GetByUserId,
     GetById,
     Create
   }

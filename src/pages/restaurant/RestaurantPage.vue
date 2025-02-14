@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="js">
-import DataRestaurant from './DataRestaurant.vue';
+import DataRestaurant from '@/components/restaurant/DataTableRestaurant.vue';
 
 </script>
 

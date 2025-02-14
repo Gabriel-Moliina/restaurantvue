@@ -2,7 +2,7 @@
   <Toast />
   <section class="src-pages-login-base-view d-flex align-items-center justify-content-center">
     <div class="box-login border border-1 rounded-5 align-content-center">
-      <div class="container-fluid" style="justify-items: center;">
+      <div class="container-fluid align-content-center">
         <router-view></router-view>
       </div>
     </div>

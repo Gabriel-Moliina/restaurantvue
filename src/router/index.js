@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LoginView from '@/pages/Login/LoginView.vue'
-import LoginCreateView from '@/pages/Login/LoginCreateView.vue'
-import LoginBaseView from '@/pages/Login/LoginBaseView.vue'
-import HomeView from '@/components/HomeView.vue'
-import RestaurantView from '@/components/RestaurantView.vue'
+import LoginPage from '@/pages/login/LoginPage.vue'
+import HomePage from '@/pages/home/HomePage.vue'
+import RestaurantPage from '@/pages/restaurant/RestaurantPage.vue'
+import LoginForm from '@/components/login/LoginForm.vue'
+import LoginCreateForm from '@/components/login/LoginCreateForm.vue'
 
 const routes = [
   {
@@ -12,29 +12,29 @@ const routes = [
   },
   {
     path: '/login',
-    component: LoginBaseView,
+    component: LoginPage,
     children: [
       {
         path: 'create',
         name: 'loginCreate',
-        component: LoginCreateView
+        component: LoginCreateForm
       },
       {
         path: '',
         name: 'login',
-        component: LoginView
+        component: LoginForm
       }
     ]
   },
   {
     path: '/home',
     name: 'home',
-    component: HomeView,
+    component: HomePage,
     children: [
       {
         path: 'restaurant/:id',
         name: 'restaurant',
-        component: RestaurantView
+        component: RestaurantPage
       }
     ]
   }

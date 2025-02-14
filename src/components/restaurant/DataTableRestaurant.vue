@@ -52,12 +52,12 @@
 import { ref, onMounted, watch } from 'vue';
 import { DataTable, Column, Button } from 'primevue';
 import { useRoute } from 'vue-router';
-import { useReservationService } from '@/services/ReservationService';
+import { useReservationService } from '@/services/api/ReservationService';
 import { useToastService } from '@/shared/ToastService';
-import DialogCreate from './dialog-create/DialogCreate.vue';
-import DialogEdit from './dialog-edit/DialogEdit.vue';
-import DialogReserve from './dialog-reserve/DialogReserve.vue';
-import { useTableService } from '@/services/TableService';
+import DialogCreate from '@/components/dialog-create/DialogCreate.vue';
+import DialogEdit from '@/components/dialog-edit/DialogEdit.vue';
+import DialogReserve from '@/components/dialog-reserve/DialogReserve.vue';
+import { useTableService } from '@/services/api/TableService';
 
 const route = useRoute();
 

@@ -1,35 +1,38 @@
 <template>
     <Dialog v-on:show="onShow" modal :header="dialogHeader" :style="{ width: '25rem' }">
-        <div class="row mb-4">
-            <div class="col-md-12">
-                <DatePicker showIcon id="datepicker-24h" v-model="datetime24h" showTime dateFormat="dd/mm/yy" hourFormat="24" iconDisplay="input" />
+        <form @submit.prevent="confirmReserve">
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <DatePicker showIcon id="datepicker-24h" v-model="datetime24h" showTime dateFormat="dd/mm/yy"
+                        hourFormat="24" iconDisplay="input" />
+                </div>
             </div>
-        </div>
-        <div class="row mb-4">
-            <div class="col-md-12">
-                <FloatLabel>
-                    <InputText fluid v-model="customerEmail" id="email" class="flex-auto" autocomplete="off" />
-                    <label for="email">Email do cliente</label>
-                </FloatLabel>
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <FloatLabel>
+                        <InputText fluid v-model="customerEmail" id="email" class="flex-auto" autocomplete="off" />
+                        <label for="email">Email do cliente</label>
+                    </FloatLabel>
+                </div>
             </div>
-        </div>
-        <div class="row m-2 justify-content-end">
-            <div class="col-3">
-                <Button type="button" label="Cancelar" severity="secondary"
-                    @click="$emit('closeDialog', { cancelEvent: false })" raised rounded size="small"></Button>
+            <div class="row m-2 justify-content-end">
+                <div class="col-3">
+                    <Button type="button" label="Cancelar" severity="secondary"
+                        @click="$emit('closeDialog', { cancelEvent: false })" raised rounded size="small"></Button>
+                </div>
+                <div class="col-3">
+                    <Button type="submit" label="Reservar" raised rounded size="small"></Button>
+                </div>
             </div>
-            <div class="col-3">
-                <Button type="button" label="Reservar" @click="confirmReserve()" raised rounded size="small"></Button>
-            </div>
-        </div>
+        </form>
     </Dialog>
 </template>
 
 <script setup lang="js">
 import { Dialog, DatePicker, InputText, Button, FloatLabel } from 'primevue';
-import { useTableService } from '@/services/TableService';
+import { useTableService } from '@/services/api/TableService';
 import { ref } from 'vue'
-import { useReservationService } from '@/services/ReservationService';
+import { useReservationService } from '@/services/api/ReservationService';
 import { useToastService } from '@/shared/ToastService';
 
 const tableService = useTableService();
