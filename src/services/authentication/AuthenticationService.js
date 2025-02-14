@@ -16,7 +16,8 @@ export const useAuthenticationService = () => {
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('userInfo', JSON.stringify({ id: data.id, name: data.name }));
 
-                store.commit('setUser', { id: data.id, name: data.name })
+                store.commit('setRestaurant', {});
+                store.commit('setUser', { id: data.id, name: data.name });
                 router.push({ name: 'home' })
             }).catch(err => {
                 showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)

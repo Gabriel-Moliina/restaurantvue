@@ -42,5 +42,4 @@ const login = () => {
   authenticationService.Login(userName.value, password.value);
 }
 
-
 </script>

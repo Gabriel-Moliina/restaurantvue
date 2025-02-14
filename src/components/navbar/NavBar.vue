@@ -1,45 +1,11 @@
 <template>
   <div class="card">
-    <Menubar :model="itensNavBar" />
+    <Menubar :model="itensNavBar" style="z-index: 2;">
+      <template #end>
+        <Button @click="logOut" label="Sair" severity="danger" />
+      </template>
+    </Menubar>
   </div>
-  <!-- <nav class="navbar navbar-expand-lg bg-body-tertiary fs-5">
-    <div class="container-fluid">
-      <div class="navbar-brand">
-        <span class="fs-3 p-2">{{ $store.state.restaurant.name }}</span>
-        <i @click="openDialogCreate($route.params.id)" v-if="$store.state.restaurant.id != 0" class="pi pi-pencil"
-          style="font-size: 14px; color: dimgrey;"></i>
-      </div>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Restaurantes
-            </a>
-            <ul class="dropdown-menu">
-              <li v-for="item in restaurants"><a class="dropdown-item" @click="setRestaurant(item.id)">{{
-                item.name }}</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li @click="openDialogCreate(0)">
-                <a class="dropdown-item text-center" href="#">
-                  <i class="pi pi-plus"></i>
-                </a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <form class="d-flex" role="search">
-          <button @click="logOut" class="btn btn-outline-danger">Sair</button>
-        </form>
-      </div>
-    </div>
-  </nav> -->
-
   <DialogSaveRestaurant :restaurant-id="restaurantId" v-model:visible="visibleDialogSaveRestaurant"
     @close-dialog="closeDialogSaveRestaurant" />
 </template>
@@ -50,10 +16,10 @@ import DialogSaveRestaurant from '../dialog-create-restaurant/DialogSaveRestaura
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useRestaurantService } from '@/services/api/RestaurantService';
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useToastService } from '@/shared/ToastService';
 import { useAuthenticationService } from '@/services/authentication/AuthenticationService';
-import { Menubar } from 'primevue';
+import { Menubar, Button } from 'primevue';
 
 const route = useRoute();
 const visibleDialogSaveRestaurant = ref(false);
@@ -65,18 +31,59 @@ const restaurantService = useRestaurantService();
 const authenticationService = useAuthenticationService();
 const { showToast } = useToastService();
 
-const itensNavBar = ref([
-  {
-    label: 'Home',
-    style:{
-      fontSize: '32px'
+const itensNavBar = computed(() => {
+  const baseItens = [{
+    label: store.state.restaurant.name,
+    style: {
+      fontSize: '28px'
     }
   },
   {
     label: 'Restaurantes',
-    icon: 'pi pi-star'
+    icon: 'pi pi-list',
+    style: {
+      fontSize: '17px'
+    },
+    items: restaurants.value.map(x => ({
+      label: x.name,
+      items: [
+      {
+          label: 'Selecionar',
+          icon: 'pi pi-angle-right',
+          command() {
+            setRestaurant(x.id)
+          },
+        },
+        {
+          label: 'Editar',
+          icon: 'pi pi-pencil',
+          command() {
+            openDialogCreate(x.id)
+          },
+        },
+        {
+          label: 'Excluir',
+          icon: 'pi pi-times',
+          command() {
+            console.log(x.id)
+          }
+        }
+      ]
+    }))
+  }]
+
+  baseItens[1].items.push({
+    separator: true
+  }, {
+    label: 'Adicionar',
+    icon: 'pi pi-plus',
+    command(){
+      openDialogCreate(0)
+    }
   }
-])
+  )
+  return baseItens;
+})
 
 const setRestaurant = (id) => {
   const restaurant = { id, name: restaurants.value.find(x => x.id == id).name };
