@@ -35,14 +35,13 @@
 
 <script setup lang="js">
 import { Dialog, Button, InputText, FloatLabel } from 'primevue';
-import { useRoute } from 'vue-router';
 import { ref } from 'vue'
 import { useTableService } from '@/services/api/TableService';
 import { useToastService } from '@/shared/ToastService'
+import { useStore } from 'vuex';
 
-const route = useRoute();
-const restaurantId = ref(route.params.id);
 const tableService = useTableService();
+const store = useStore();
 const { showToast } = useToastService();
 const emit = defineEmits(['closeDialog']);
 const props = defineProps({
@@ -55,7 +54,7 @@ const tableEdit = ref({
     capacity: 0,
     id: 0,
     identification: '',
-    restaurantId: restaurantId.value,
+    restaurantId: store.state.restaurant.id,
     reserved: 0
 })
 
@@ -64,7 +63,7 @@ const confirmEdit = () => {
         capacity: tableEdit.value.capacity,
         id: tableEdit.value.id,
         identification: tableEdit.value.identification,
-        restaurantId: tableEdit.value.restaurantId,
+        restaurantId: store.state.restaurant.id,
     }
 
     tableService.Create(table)

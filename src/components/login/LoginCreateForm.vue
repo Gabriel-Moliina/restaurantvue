@@ -63,7 +63,6 @@ const register = () => {
     password: userData.value.password,
     confirmPassword: userData.value.confirmPassword
   }
-  console.log(user)
   userService.Create(user)
     .then(response => {
       showToast('success', 'Sucesso', 'Usuário cadastrado!')

@@ -44,11 +44,6 @@ const confirmCreate = () => {
 }
 
 const loadRestaurant = () => {
-    if (props.restaurantId == 0) {
-        resetForm();
-        return;
-    }
-
     restaurantService.GetById(props.restaurantId)
         .then(({ data }) => {
             restaurantName.value = data.data?.name ?? ""

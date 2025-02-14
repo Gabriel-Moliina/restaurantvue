@@ -6,17 +6,11 @@
       </template>
     </Menubar>
   </div>
-  <DialogSaveRestaurant 
-    :restaurant-id="restaurantId" 
-    v-model:visible="visibleDialogSaveRestaurant"
-    @close-dialog="closeDialogSaveRestaurant" 
-  />
+  <DialogSaveRestaurant :restaurant-id="restaurantId" v-model:visible="visibleDialogSaveRestaurant"
+    @close-dialog="closeDialogSaveRestaurant" />
 
-  <DialogDeleteRestaurant 
-    :restaurant-id="restaurantId" 
-    v-model:visible="visibleDialogDeleteRestaurant"
-    @close-dialog="closeDialogDeleteRestaurant" 
-  />
+  <DialogDeleteRestaurant :restaurant-id="restaurantId" v-model:visible="visibleDialogDeleteRestaurant"
+    @close-dialog="closeDialogDeleteRestaurant" />
 </template>
 
 <script setup lang="js">
@@ -34,10 +28,10 @@ import DialogDeleteRestaurant from '../dialog-delete-restaurant/DialogDeleteRest
 const route = useRoute();
 const visibleDialogSaveRestaurant = ref(false);
 const visibleDialogDeleteRestaurant = ref(false);
-const restaurantId = ref(route.params.id);
+const store = useStore();
+const restaurantId = ref(store.state.restaurant.id);
 const restaurants = ref([]);
 const router = useRouter();
-const store = useStore();
 const restaurantService = useRestaurantService();
 const authenticationService = useAuthenticationService();
 const { showToast } = useToastService();
@@ -45,6 +39,10 @@ const { showToast } = useToastService();
 const itensNavBar = computed(() => {
   const baseItens = [{
     label: store.state.restaurant.name,
+    command() {
+      if (store.state.restaurant.id)
+        router.push({ name: 'restaurant', params: { id: store.state.restaurant.id } })
+    },
     style: {
       fontSize: '28px',
       'min-width': '250px'
@@ -59,7 +57,7 @@ const itensNavBar = computed(() => {
     items: restaurants.value.map(x => ({
       label: x.name,
       items: [
-      {
+        {
           label: 'Selecionar',
           icon: 'pi pi-angle-right',
           command() {
@@ -89,7 +87,7 @@ const itensNavBar = computed(() => {
   }, {
     label: 'Adicionar',
     icon: 'pi pi-plus',
-    command(){
+    command() {
       openDialogCreate(0)
     }
   }
@@ -140,7 +138,6 @@ const logOut = () => {
 
 onMounted(() => {
   getRestaurants();
-
 
   const restaurant = JSON.parse(localStorage.getItem('restaurant'));
   if (restaurant)

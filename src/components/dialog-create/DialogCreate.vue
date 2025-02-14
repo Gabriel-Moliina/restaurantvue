@@ -39,15 +39,17 @@ import { ref } from 'vue'
 import { InputNumber, Button, Dialog, InputText, FloatLabel } from 'primevue';
 import { useTableService } from '@/services/api/TableService';
 import { useToastService } from '@/shared/ToastService';
+import { useStore } from 'vuex';
 
 const route = useRoute();
+const store = useStore();
 const tableService = useTableService();
 const { showToast } = useToastService()
-const restaurantId = route.params.id;
+
 const tableCreate = ref({
     identification: '',
     capacity: '',
-    restaurantId: restaurantId
+    restaurantId: store.state.restaurant.id
 });
 
 const emit = defineEmits(['closeDialog'])
@@ -56,7 +58,7 @@ const confirmCreateTable = () => {
     const table = {
         identification: tableCreate.value.identification,
         capacity: tableCreate.value.capacity,
-        restaurantId: restaurantId
+        restaurantId: store.state.restaurant.id
     };
 
     tableService.Create(table)

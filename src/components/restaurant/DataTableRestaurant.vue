@@ -58,10 +58,12 @@ import DialogCreate from '@/components/dialog-create/DialogCreate.vue';
 import DialogEdit from '@/components/dialog-edit/DialogEdit.vue';
 import DialogReserve from '@/components/dialog-reserve/DialogReserve.vue';
 import { useTableService } from '@/services/api/TableService';
+import { useStore } from 'vuex';
 
 const route = useRoute();
+const store = useStore();
 
-const restaurantId = ref(route.params.id);
+const restaurantId = ref(store.state.restaurant.id);
 
 const visibleTableEdit = ref(false);
 const visibleTableReserve = ref(false);
