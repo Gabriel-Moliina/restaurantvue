@@ -16,9 +16,14 @@ export const useRestaurantService = () => {
     return api.get('GetByUserId/' + id);
   }
 
+  const Delete = (id) => {
+    return api.delete('/' + id);
+  }
+
   return {
     GetByUserId,
     GetById,
-    Create
+    Create,
+    Delete
   }
 }

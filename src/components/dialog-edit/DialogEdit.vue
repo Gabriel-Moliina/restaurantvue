@@ -1,30 +1,32 @@
 <template>
     <Dialog v-on:show="loadTable" modal :header="dialogHeader" :style="{ width: '25rem' }">
         <form @submit.prevent="confirmEdit">
-            <div class="row">
-                <label for="identification" class="font-semibold w-24">Identificação da mesa</label>
+            <div class="row mb-4" style="margin-top: 20px;">
                 <div class="col-md-12">
-                    <InputText id="identification" v-model="tableEdit.identification" class="flex-auto"
-                        autocomplete="off" />
+                    <FloatLabel>
+                        <InputText id="identification" v-model="tableEdit.identification" class="flex-auto"
+                            autocomplete="off" />
+                        <label for="identification">Nome do Restaurante</label>
+                    </FloatLabel>
                 </div>
             </div>
-            <div class="row">
-                <label for="capacity" class="font-semibold w-24">Capacidade da mesa</label>
+            <div class="row mb-4">
                 <div class="col-md-12">
-                    <InputText v-model="tableEdit.capacity" id="capacity" class="flex-auto" autocomplete="off" />
+                    <FloatLabel>
+                        <InputText v-model="tableEdit.capacity" id="capacity" class="flex-auto" autocomplete="off" />
+                        <label for="capacity">Capacidade da mesa</label>
+                    </FloatLabel>
                 </div>
             </div>
-            <div class="row m-2 justify-content-end">
-                <div class="col-3">
-                    <Button type="button" label="Excluir" severity="danger" @click="deleteTable()" raised rounded
-                        size="small"></Button>
-                </div>
-                <div class="col-3">
+            <div class="row m-2">
+                <div class="col-12 d-flex text-center justify-content-between">
                     <Button type="button" label="Cancelar" severity="secondary"
                         @click="$emit('closeDialog', { cancelEvent: true })" raised rounded size="small"></Button>
-                </div>
-                <div class="col-3">
-                    <Button type="submit" label="Salvar" raised rounded size="small"></Button>
+                    <div>
+                        <Button style="margin-right: 14px;" type="button" label="Excluir" severity="danger"
+                            @click="deleteTable()" raised rounded size="small"></Button>
+                        <Button type="submit" label="Salvar" raised rounded size="small"></Button>
+                    </div>
                 </div>
             </div>
         </form>
@@ -32,11 +34,11 @@
 </template>
 
 <script setup lang="js">
-import { Dialog, Button, InputText } from 'primevue';
+import { Dialog, Button, InputText, FloatLabel } from 'primevue';
 import { useRoute } from 'vue-router';
 import { ref } from 'vue'
 import { useTableService } from '@/services/api/TableService';
-import { useToastService } from '@/shared/ToastService';
+import { useToastService } from '@/shared/ToastService'
 
 const route = useRoute();
 const restaurantId = ref(route.params.id);
@@ -67,7 +69,7 @@ const confirmEdit = () => {
 
     tableService.Create(table)
         .then(response => {
-            showToast('success', 'Sucesso', 'Mesa editada com sucesso!');
+            showToast('success', 'Sucesso', 'Mesa editada');
             emit('closeDialog')
         })
         .catch(err => {
@@ -78,7 +80,7 @@ const confirmEdit = () => {
 const deleteTable = () => {
     tableService.Delete(tableEdit.value.id)
         .then(response => {
-            showToast('success', 'Sucesso', 'Mesa excluída com sucesso')
+            showToast('success', 'Sucesso', 'Mesa excluída')
             emit('closeDialog');
         }).catch(err => {
             showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)

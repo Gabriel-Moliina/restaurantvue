@@ -6,8 +6,17 @@
       </template>
     </Menubar>
   </div>
-  <DialogSaveRestaurant :restaurant-id="restaurantId" v-model:visible="visibleDialogSaveRestaurant"
-    @close-dialog="closeDialogSaveRestaurant" />
+  <DialogSaveRestaurant 
+    :restaurant-id="restaurantId" 
+    v-model:visible="visibleDialogSaveRestaurant"
+    @close-dialog="closeDialogSaveRestaurant" 
+  />
+
+  <DialogDeleteRestaurant 
+    :restaurant-id="restaurantId" 
+    v-model:visible="visibleDialogDeleteRestaurant"
+    @close-dialog="closeDialogDeleteRestaurant" 
+  />
 </template>
 
 <script setup lang="js">
@@ -20,9 +29,11 @@ import { computed, onMounted, ref } from 'vue'
 import { useToastService } from '@/shared/ToastService';
 import { useAuthenticationService } from '@/services/authentication/AuthenticationService';
 import { Menubar, Button } from 'primevue';
+import DialogDeleteRestaurant from '../dialog-delete-restaurant/DialogDeleteRestaurant.vue';
 
 const route = useRoute();
 const visibleDialogSaveRestaurant = ref(false);
+const visibleDialogDeleteRestaurant = ref(false);
 const restaurantId = ref(route.params.id);
 const restaurants = ref([]);
 const router = useRouter();
@@ -35,7 +46,8 @@ const itensNavBar = computed(() => {
   const baseItens = [{
     label: store.state.restaurant.name,
     style: {
-      fontSize: '28px'
+      fontSize: '28px',
+      'min-width': '250px'
     }
   },
   {
@@ -65,7 +77,7 @@ const itensNavBar = computed(() => {
           label: 'Excluir',
           icon: 'pi pi-times',
           command() {
-            console.log(x.id)
+            openDialogDelete(x.id)
           }
         }
       ]
@@ -109,7 +121,17 @@ const openDialogCreate = (id) => {
 
 const closeDialogSaveRestaurant = () => {
   getRestaurants();
-  visibleDialogSaveRestaurant = false;
+  visibleDialogSaveRestaurant.value = false;
+}
+
+const openDialogDelete = (id) => {
+  restaurantId.value = id;
+  visibleDialogDeleteRestaurant.value = true;
+}
+
+const closeDialogDeleteRestaurant = () => {
+  getRestaurants();
+  visibleDialogDeleteRestaurant.value = false;
 }
 
 const logOut = () => {

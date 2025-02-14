@@ -15,12 +15,12 @@
                     </FloatLabel>
                 </div>
             </div>
-            <div class="row m-2 justify-content-end">
-                <div class="col-3">
+            <div class="row m-2 justify-content-between">
+                <div class="col-3 text-center">
                     <Button type="button" label="Cancelar" severity="secondary"
                         @click="$emit('closeDialog', { cancelEvent: false })" raised rounded size="small"></Button>
                 </div>
-                <div class="col-3">
+                <div class="col-3 text-center">
                     <Button type="submit" label="Reservar" raised rounded size="small"></Button>
                 </div>
             </div>

@@ -1,14 +1,10 @@
 <template>
-    <Dialog v-on:show="loadRestaurant" modal :header="dialogHeader" :style="{ width: '25rem' }">
+    <Dialog v-on:show="loadRestaurant" modal header="Confirmar exclusão" :style="{ width: '25vw' }">
         <form @submit.prevent="confirmCreate">
-            <div class="row mb-4" style="margin-top: 20px;">
-                <div class="col-md-12">
-                    <FloatLabel>
-                        <InputText fluid v-model="restaurantName" id="name-restaurant" class="flex-auto"
-                            autocomplete="off" />
-                        <label for="name-restaurant">Nome do Restaurante</label>
-                    </FloatLabel>
-                </div>
+            <div class="row mb-5">
+                <p class="m-0">
+                    Deseja excluir o restaurante "{{ restaurantName }}"
+                </p>
             </div>
             <div class="row m-2 justify-content-between">
                 <div class="col-3 text-center">
@@ -16,7 +12,7 @@
                         @click="$emit('closeDialog', { cancelEvent: false })" raised rounded size="small"></Button>
                 </div>
                 <div class="col-3 text-center">
-                    <Button type="submit" label="Salvar" raised rounded size="small"></Button>
+                    <Button type="submit" label="Excluir" severity="danger" raised rounded size="small"></Button>
                 </div>
             </div>
         </form>
@@ -24,7 +20,7 @@
 </template>
 
 <script setup lang="js">
-import { Dialog, InputText, Button, FloatLabel } from 'primevue';
+import { Dialog, Button } from 'primevue';
 import { ref } from 'vue'
 import { useRestaurantService } from '@/services/api/RestaurantService';
 import { useToastService } from '@/shared/ToastService';
@@ -38,19 +34,13 @@ const emit = defineEmits(['closeDialog'])
 const props = defineProps(['restaurantId'])
 
 const confirmCreate = () => {
-    restaurantService.Create({ id: props.restaurantId, name: restaurantName.value })
+    restaurantService.Delete(props.restaurantId)
         .then(() => {
-
-            showToast('success', 'Sucesso', 'Restaurante criado');
+            showToast('success', 'Sucesso', 'Restaurante excluído');
             emit('closeDialog')
         }).catch(err => {
             showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
         });
-}
-
-const resetForm = () => {
-    dialogHeader.value = 'Criar novo restaurante';
-    restaurantName.value = '';
 }
 
 const loadRestaurant = () => {
@@ -69,5 +59,6 @@ const loadRestaurant = () => {
             showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
         });
 }
-
 </script>
+
+<style scoped></style>

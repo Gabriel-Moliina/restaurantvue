@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="row justify-content-end mb-2">
     <div class="col-1 text-end">
-      <Button severity="contrast" icon="pi pi-plus" @click="visibleTableCreate = true" />
+      <Button severity="contrast" title="Adicionar mesa" icon="pi pi-plus" @click="visibleTableCreate = true" />
     </div>
   </div>
   <div class="card">
@@ -11,19 +11,19 @@
       <Column field="capacity" header="Capacidade" sortable></Column>
       <Column header="Editar" bodyStyle="text-align:center" style="width: 10%">
         <template #body="row">
-          <Button severity="contrast" icon="pi pi-pencil" @click="editTable(row.data)" />
+          <Button severity="contrast" title="Editar mesa" icon="pi pi-pencil" @click="editTable(row.data)" />
         </template>
       </Column>
       <Column header="Reservar" bodyStyle="text-align:center" style="width: 10%">
         <template #body="row">
-          <Button v-if="!row.data.reserved" severity="success" icon="pi pi-calendar-clock" @click="reserve(row.data)" />
-          <Button v-if="row.data.reserved" severity="danger" icon="pi pi-calendar-clock"
+          <Button v-if="!row.data.reserved" title="Reservar mesa" severity="success" icon="pi pi-calendar-clock" @click="reserve(row.data)" />
+          <Button v-if="row.data.reserved" title="Cancelar mesa" severity="danger" icon="pi pi-calendar-clock"
             @click="cancelReserve(row.data.id)" />
         </template>
       </Column>
       <Column header="Liberar" bodyStyle="text-align:center" style="width: 10%">
         <template #body="row">
-          <Button v-if="row.data.reserved" severity="info" icon="pi pi-check" @click="release(row.data.id)" />
+          <Button v-if="row.data.reserved" title="Liberar mesa" severity="info" icon="pi pi-check" @click="release(row.data.id)" />
         </template>
       </Column>
     </DataTable>

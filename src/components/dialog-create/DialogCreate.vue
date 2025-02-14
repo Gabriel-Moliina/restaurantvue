@@ -1,25 +1,30 @@
 <template>
     <Dialog v-on:show="tableCreate = {}" modal header="Criar nova mesa" :style="{ width: '25rem' }">
         <form @submit.prevent="confirmCreateTable">
-            <div class="row">
-                <label for="identification" class="font-semibold w-24">Identificação da mesa</label>
+            <div class="row mb-4" style="margin-top: 20px;">
                 <div class="col-md-12">
-                    <InputText v-model="tableCreate.identification" id="identification" class="flex-auto"
-                        autocomplete="off" />
+                    <FloatLabel>
+                        <InputText fluid v-model="tableCreate.identification" id="identification" class="flex-auto"
+                            autocomplete="off" />
+                        <label for="identification">Identificação da mesa</label>
+                    </FloatLabel>
                 </div>
             </div>
-            <div class="row">
-                <label for="capacity" class="font-semibold w-24">Capacidade</label>
+            <div class="row mb-4">
                 <div class="col-md-12">
-                    <InputNumber v-model="tableCreate.capacity" id="capacity" class="flex-auto" autocomplete="off" />
+                    <FloatLabel>
+                        <InputNumber v-model="tableCreate.capacity" id="capacity" class="flex-auto"
+                            autocomplete="off" />
+                        <label for="capacity">Capacidade</label>
+                    </FloatLabel>
                 </div>
             </div>
-            <div class="row m-2 justify-content-end">
-                <div class="col-3">
+            <div class="row m-2 justify-content-between">
+                <div class="col-3 text-center">
                     <Button type="button" label="Cancelar" severity="secondary"
                         @click="$emit('closeDialog', { cancelEvent: true })" raised rounded size="small"></Button>
                 </div>
-                <div class="col-3">
+                <div class="col-3 text-center">
                     <Button type="submit" label="Criar" raised rounded size="small"></Button>
                 </div>
             </div>
@@ -31,7 +36,7 @@
 
 import { useRoute } from 'vue-router';
 import { ref } from 'vue'
-import { InputNumber, Button, Dialog, InputText } from 'primevue';
+import { InputNumber, Button, Dialog, InputText, FloatLabel } from 'primevue';
 import { useTableService } from '@/services/api/TableService';
 import { useToastService } from '@/shared/ToastService';
 
@@ -56,7 +61,7 @@ const confirmCreateTable = () => {
 
     tableService.Create(table)
         .then(response => {
-            showToast('success', 'Sucesso', 'Mesa cadastrada com sucesso')
+            showToast('success', 'Sucesso', 'Mesa cadastrada')
             emit('closeDialog')
         }).catch(err => {
             showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)

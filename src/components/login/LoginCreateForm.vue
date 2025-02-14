@@ -66,7 +66,7 @@ const register = () => {
   console.log(user)
   userService.Create(user)
     .then(response => {
-      showToast('success', 'Sucesso', 'Usuário cadastrado com sucesso!')
+      showToast('success', 'Sucesso', 'Usuário cadastrado!')
       router.push({ name: 'login' })
     }).catch(err => {
       showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
