@@ -62,7 +62,7 @@ const confirmCreateTable = () => {
     };
 
     tableService.Create(table)
-        .then(response => {
+        .then(_ => {
             showToast('success', 'Sucesso', 'Mesa cadastrada')
             emit('closeDialog')
         }).catch(err => {

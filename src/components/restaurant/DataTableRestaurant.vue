@@ -108,7 +108,7 @@ const closeDialogReserve = (args) => {
 
 const cancelReserve = (tableId) => {
   reservationService.Cancel(tableId)
-    .then(response => {
+    .then(_ => {
       showToast('success', 'Sucesso', 'A reserva foi cancelada!')
       visibleTableReserve.value = false;
       loadDataTable();
@@ -121,7 +121,7 @@ const cancelReserve = (tableId) => {
 const release = (id) => {
   tableService.Release({
     tableId: id
-  }).then(response => {
+  }).then(_ => {
     showToast('success', 'Sucesso', 'Mesa liberada')
     loadDataTable()
   }).catch(err => {

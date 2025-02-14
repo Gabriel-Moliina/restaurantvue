@@ -67,7 +67,7 @@ const confirmEdit = () => {
     }
 
     tableService.Create(table)
-        .then(response => {
+        .then(_ => {
             showToast('success', 'Sucesso', 'Mesa editada');
             emit('closeDialog')
         })
@@ -78,7 +78,7 @@ const confirmEdit = () => {
 
 const deleteTable = () => {
     tableService.Delete(tableEdit.value.id)
-        .then(response => {
+        .then(_ => {
             showToast('success', 'Sucesso', 'Mesa excluída')
             emit('closeDialog');
         }).catch(err => {

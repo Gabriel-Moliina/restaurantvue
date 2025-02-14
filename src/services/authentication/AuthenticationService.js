@@ -26,8 +26,6 @@ export const useAuthenticationService = () => {
 
     const LogOut = () => {
         ClearLocalStorage();
-        localStorage.removeItem('token');
-        localStorage.removeItem('userInfo');
         router.push({ name: 'login' })
     }
 

@@ -64,7 +64,7 @@ const register = () => {
     confirmPassword: userData.value.confirmPassword
   }
   userService.Create(user)
-    .then(response => {
+    .then(_ => {
       showToast('success', 'Sucesso', 'Usuário cadastrado!')
       router.push({ name: 'login' })
     }).catch(err => {
