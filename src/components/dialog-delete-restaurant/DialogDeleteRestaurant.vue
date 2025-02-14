@@ -24,12 +24,16 @@ import { Dialog, Button } from 'primevue';
 import { ref } from 'vue'
 import { useRestaurantService } from '@/services/api/RestaurantService';
 import { useToastService } from '@/shared/ToastService';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 const restaurantService = useRestaurantService();
 const restaurantName = ref('');
 const dialogHeader = ref('');
 const { showToast } = useToastService();
 const emit = defineEmits(['closeDialog'])
+const store = useStore()
+const router = useRouter();
 
 const props = defineProps(['restaurantId'])
 
@@ -38,6 +42,10 @@ const confirmCreate = () => {
         .then(() => {
             showToast('success', 'Sucesso', 'Restaurante excluído');
             emit('closeDialog')
+            if(props.restaurantId == store.state.restaurant.id) {
+                store.commit('clearRestaurant');
+                router.push({name: 'restaurant'})
+            }
         }).catch(err => {
             showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
         });

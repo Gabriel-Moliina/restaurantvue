@@ -60,10 +60,8 @@ import DialogReserve from '@/components/dialog-reserve/DialogReserve.vue';
 import { useTableService } from '@/services/api/TableService';
 import { useStore } from 'vuex';
 
-const route = useRoute();
 const store = useStore();
-
-const restaurantId = ref(store.state.restaurant.id);
+const route = useRoute();
 
 const visibleTableEdit = ref(false);
 const visibleTableReserve = ref(false);
@@ -130,7 +128,7 @@ const release = (id) => {
 }
 
 const loadDataTable = () => {
-  tableService.GetByRestaurantId(restaurantId.value).then(response => {
+  tableService.GetByRestaurantId(store.state.restaurant.id).then(response => {
     tables.value = response.data.data;
   })
 }
@@ -140,7 +138,6 @@ onMounted(() => {
 })
 
 watch(() => route.params.id, (newId, oldId) =>{
-  restaurantId.value = newId
   loadDataTable()
 })
 

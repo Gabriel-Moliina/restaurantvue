@@ -23,6 +23,11 @@ export default createStore({
     setUser(state, { id, name }) {
       state.user.id = id
       state.user.name = name
+    },
+    clearRestaurant(state){
+      state.restaurant.name = 'Selecione um restaurante';
+      state.restaurant.id = 0;
+      localStorage.removeItem('restaurant');
     }
   }
 })

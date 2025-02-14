@@ -12,13 +12,13 @@ export const useAuthenticationService = () => {
     const Login = (email, password) => {
         userService.Login(email, password)
             .then(response => {
+                ClearLocalStorage();
                 const data = response.data.data
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('userInfo', JSON.stringify({ id: data.id, name: data.name }));
 
-                store.commit('setRestaurant', {});
                 store.commit('setUser', { id: data.id, name: data.name });
-                router.push({ name: 'home' })
+                router.push({ name: 'restaurant' })
             }).catch(err => {
                 showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
             })
