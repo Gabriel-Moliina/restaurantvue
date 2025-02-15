@@ -19,9 +19,7 @@ export const useAuthenticationService = () => {
 
                 store.commit('setUser', { id: data.id, name: data.name });
                 router.push({ name: 'restaurant' })
-            }).catch(err => {
-                showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
-            })
+            }).catch(err => { })
     }
 
     const LogOut = () => {

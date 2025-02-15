@@ -107,9 +107,7 @@ const setRestaurant = (id) => {
 const getRestaurants = () => {
   restaurantService.GetByUserId(store.state.user.id).then(response => {
     restaurants.value = response.data.data
-  }).catch(err => {
-    showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
-  });
+  }).catch(err => { });
 }
 
 const openDialogCreate = (id) => {

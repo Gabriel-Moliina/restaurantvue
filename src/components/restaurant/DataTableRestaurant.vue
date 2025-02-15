@@ -31,18 +31,18 @@
 
   <DialogCreate 
     v-model:visible="visibleTableCreate" 
-    @close-dialog="closeDialogCreate" 
+    @close-dialog="closeDialog('create')" 
   />
 
   <DialogEdit 
     v-model:visible="visibleTableEdit"
-     @close-dialog="closeDialogEdit" 
+     @close-dialog="closeDialog('edit')" 
      :table-id="tableId" 
   />
 
   <DialogReserve
     v-model:visible="visibleTableReserve"
-    @close-dialog="closeDialogReserve"
+    @close-dialog="closeDialog('reserve')"
     :table-id="tableId"
   />
 </template>
@@ -85,22 +85,12 @@ const reserve = (data) => {
 }
 
 
-const closeDialogCreate = (args) => {
-  visibleTableCreate.value = false;
-  if(!args?.cancelEvent)
-    loadDataTable();
-}
+const closeDialog = (dialog, args) => {
+  if(dialog === 'create') visibleTableCreate.value = false;
+  if(dialog === 'edit') visibleTableEdit.value = false;
+  if(dialog === 'reserve') visibleTableReserve.value = false;
 
-const closeDialogEdit = (args) => {
-  visibleTableEdit.value = false;
-  if(!args?.cancelEvent)
-    loadDataTable();
-}
-
-const closeDialogReserve = (args) => {
-  visibleTableReserve.value = false;
-  if(!args?.cancelEvent)
-    loadDataTable();
+  if(!args?.cancelEvent) loadDataTable();
 }
 
 const cancelReserve = (tableId) => {
@@ -110,9 +100,7 @@ const cancelReserve = (tableId) => {
       visibleTableReserve.value = false;
       loadDataTable();
     })
-    .catch(err => {
-      showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
-    });
+    .catch(err => { });
 }
 
 const release = (id) => {
@@ -121,9 +109,7 @@ const release = (id) => {
   }).then(_ => {
     showToast('success', 'Sucesso', 'Mesa liberada')
     loadDataTable()
-  }).catch(err => {
-    showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
-  });
+  }).catch(err => { });
 }
 
 const loadDataTable = () => {

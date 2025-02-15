@@ -43,9 +43,7 @@ const confirmCreate = () => {
 
             showToast('success', 'Sucesso', 'Restaurante criado');
             emit('closeDialog')
-        }).catch(err => {
-            showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
-        });
+        }).catch(err => { });
 }
 
 const resetForm = () => {
@@ -65,9 +63,7 @@ const loadRestaurant = () => {
             dialogHeader.value = 'Editar restaurante';
 
 
-        }).catch(err => {
-            showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
-        });
+        }).catch(err => { });
 }
 
 </script>

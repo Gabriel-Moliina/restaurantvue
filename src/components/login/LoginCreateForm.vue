@@ -5,12 +5,6 @@
         <span class="fs-3 mb-3">Cadastrar</span>
         <div class="col-md-7 mb-4">
           <FloatLabel>
-            <InputText id="name" type="name" v-model="userData.name" fluid />
-            <label for="name">Nome</label>
-          </FloatLabel>
-        </div>
-        <div class="col-md-7 mb-4">
-          <FloatLabel>
             <InputText id="email" type="email" v-model="userData.email" fluid />
             <label for="email">Email</label>
           </FloatLabel>
@@ -51,7 +45,6 @@ const userService = useUserService();
 
 const userData = ref({
   email: '',
-  name: '',
   password: '',
   confirmPassword: ''
 })
@@ -59,7 +52,6 @@ const userData = ref({
 const register = () => {
   const user = {
     email: userData.value.email,
-    name: userData.value.name,
     password: userData.value.password,
     confirmPassword: userData.value.confirmPassword
   }
@@ -67,9 +59,7 @@ const register = () => {
     .then(_ => {
       showToast('success', 'Sucesso', 'Usuário cadastrado!')
       router.push({ name: 'login' })
-    }).catch(err => {
-      showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
-    });
+    }).catch(err => { });
 }
 
 

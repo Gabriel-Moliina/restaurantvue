@@ -6,7 +6,7 @@ export const useRestaurantService = () => {
 
   const GetById = (id) => api.get(`/${id}`);
 
-  const GetByUserId = (id) => api.get('GetByUserId/' + id);
+  const GetByUserId = (id) => api.get('user/' + id);
 
   const Create = (restaurant) => api.post('', restaurant)
 

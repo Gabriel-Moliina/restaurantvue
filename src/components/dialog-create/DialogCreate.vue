@@ -65,9 +65,7 @@ const confirmCreateTable = () => {
         .then(_ => {
             showToast('success', 'Sucesso', 'Mesa cadastrada')
             emit('closeDialog')
-        }).catch(err => {
-            showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
-        });
+        }).catch(err => {});
 }
 
 </script>

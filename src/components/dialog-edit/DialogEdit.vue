@@ -71,9 +71,7 @@ const confirmEdit = () => {
             showToast('success', 'Sucesso', 'Mesa editada');
             emit('closeDialog')
         })
-        .catch(err => {
-            showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
-        })
+        .catch(err => { })
 }
 
 const deleteTable = () => {
@@ -81,9 +79,7 @@ const deleteTable = () => {
         .then(_ => {
             showToast('success', 'Sucesso', 'Mesa excluída')
             emit('closeDialog');
-        }).catch(err => {
-            showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
-        });
+        }).catch(err => { });
 }
 
 const loadTable = () => {
@@ -91,9 +87,7 @@ const loadTable = () => {
         .then(({ data }) => {
             tableEdit.value = data.data
             dialogHeader.value = 'Editar mesa ' + tableEdit.value.identification
-        }).catch(err => {
-            showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
-        });
+        }).catch(err => { });
 }
 
 </script>

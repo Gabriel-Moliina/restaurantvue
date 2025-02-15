@@ -1,9 +1,12 @@
 import axios from 'axios';
+import { useToastService } from '@/shared/ToastService';
 
 export const useAxios = (path) => {
+  const { showToast} = useToastService();
+
   const api = axios.create({
     baseURL: 'http://localhost:5142/api/' + path,
-    timeout: 999999,
+    timeout: 10000,
   });
 
   api.interceptors.request.use(function (config) {
@@ -14,6 +17,18 @@ export const useAxios = (path) => {
   }, function (error) {
     return Promise.reject(error);
   });
+
+  api.interceptors.response.use((response) => response,
+    (error) => {
+      if(error.response)
+        showToast('error', 'Algo deu errado', error?.response?.data?.messages?.map(x => x.message).join('\n') ?? error)
+      else{
+        showToast('error', 'ERROR', 'Servidor indisponível')
+        return new Promise(() => {});
+      }
+      return Promise.reject(error);
+    });
+
 
   return { api }
 }

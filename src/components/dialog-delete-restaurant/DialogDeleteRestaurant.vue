@@ -46,9 +46,7 @@ const confirmCreate = () => {
                 store.commit('clearRestaurant');
                 router.push({name: 'restaurant'})
             }
-        }).catch(err => {
-            showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
-        });
+        }).catch(err => { });
 }
 
 const loadRestaurant = () => {
@@ -58,9 +56,7 @@ const loadRestaurant = () => {
             dialogHeader.value = 'Editar restaurante';
 
 
-        }).catch(err => {
-            showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
-        });
+        }).catch(err => { });
 }
 </script>
 

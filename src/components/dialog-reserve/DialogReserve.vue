@@ -58,9 +58,7 @@ const onShow = () => {
     tableService.GetById(props.tableId)
         .then(({ data }) => {
             dialogHeader.value = 'Reservar mesa ' + data.data.identification
-        }).catch(err => {
-            showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
-        });
+        }).catch(err => { });
 }
 
 const confirmReserve = () => {
@@ -69,9 +67,7 @@ const confirmReserve = () => {
             showToast('success', 'Sucesso', 'Mesa reservada!')
             emit('closeDialog')
         })
-        .catch(err => {
-            showToast('error', 'Algo deu errado', err?.response?.data?.messages?.map(x => x.message).join('\n') ?? err)
-        })
+        .catch(err => {})
 }
 </script>
 
