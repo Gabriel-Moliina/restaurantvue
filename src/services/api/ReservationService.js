@@ -4,13 +4,9 @@ export const useReservationService = () => {
 
   const { api } = useAxios('reservation');
 
-  const Create = (tableId, date, email) => {
-    return api.post('/', { tableId, date, email });
-  }
+  const Create = (tableId, date, email) => api.post('/', { TableId: tableId, Date: date, Email: email });
 
-  const Cancel = (id) => {
-    return api.delete('/' + id);
-  }
+  const Cancel = (id) => api.delete('/' + id);
 
   return {
     Create,

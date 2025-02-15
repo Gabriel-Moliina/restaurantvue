@@ -64,7 +64,7 @@ const onShow = () => {
 }
 
 const confirmReserve = () => {
-    reservationService.Create(props.tableId, datetime24h.value, customerEmail.value)
+    reservationService.Create(props.tableId, datetime24h.value.toISOString(), customerEmail.value)
         .then(_ => {
             showToast('success', 'Sucesso', 'Mesa reservada!')
             emit('closeDialog')

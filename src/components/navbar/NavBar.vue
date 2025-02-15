@@ -138,7 +138,7 @@ const logOut = () => {
 
 onMounted(() => {
   getRestaurants();
-
+  
   const restaurant = JSON.parse(localStorage.getItem('restaurant'));
   if (restaurant)
     store.commit('setRestaurant', { id: restaurant.id, name: restaurant.name })

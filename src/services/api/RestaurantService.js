@@ -4,21 +4,13 @@ export const useRestaurantService = () => {
 
   const { api } = useAxios('restaurant');
 
-  const Create = (restaurant) => {
-    return api.post('', restaurant)
-  }
+  const GetById = (id) => api.get(`/${id}`);
 
-  const GetById = (id) => {
-    return api.get(`/${id}`);
-  }
+  const GetByUserId = (id) => api.get('GetByUserId/' + id);
 
-  const GetByUserId = (id) => {
-    return api.get('GetByUserId/' + id);
-  }
+  const Create = (restaurant) => api.post('', restaurant)
 
-  const Delete = (id) => {
-    return api.delete('/' + id);
-  }
+  const Delete = (id) => api.delete('/' + id);
 
   return {
     GetByUserId,

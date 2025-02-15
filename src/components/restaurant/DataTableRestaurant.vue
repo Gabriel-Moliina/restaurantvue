@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="row justify-content-end mb-2">
     <div class="col-1 text-end">
-      <Button severity="contrast" title="Adicionar mesa" icon="pi pi-plus" @click="visibleTableCreate = true" />
+      <Button v-if="route.params.id" severity="contrast" title="Adicionar mesa" icon="pi pi-plus" @click="visibleTableCreate = true" />
     </div>
   </div>
   <div class="card">
@@ -62,6 +62,8 @@ import { useStore } from 'vuex';
 
 const store = useStore();
 const route = useRoute();
+const tableService = useTableService();
+const reservationService = useReservationService();
 
 const visibleTableEdit = ref(false);
 const visibleTableReserve = ref(false);
@@ -73,16 +75,13 @@ const { showToast } = useToastService();
 const tableId = ref(0);
 
 const editTable = (data) => {
-  visibleTableEdit.value = true;
   tableId.value = data.id;
+  visibleTableEdit.value = true;
 };
 
-const tableService = useTableService();
-const reservationService = useReservationService();
-
 const reserve = (data) => {
-  visibleTableReserve.value = true;
   tableId.value = data.id
+  visibleTableReserve.value = true;
 }
 
 
@@ -134,6 +133,10 @@ const loadDataTable = () => {
 }
 
 onMounted(() => {
+  if(!route.params.id){
+    store.commit('clearRestaurant')
+  }
+  
   loadDataTable()
 })
 

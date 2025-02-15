@@ -18,22 +18,13 @@ import { Toast } from 'primevue';
 import { useStore } from 'vuex';
 import DataRestaurant from '@/components/restaurant/DataTableRestaurant.vue';
 import NavBar from '@/components/navbar/NavBar.vue';
-import { onMounted } from 'vue';
-import { useRoute } from 'vue-router';
 
 const store = useStore();
-const route = useRoute();
 
 if(!store.state.user.id){
   const user = JSON.parse(localStorage.getItem('userInfo'));
   store.commit('setUser', {id: user.id, name: user.name})
 }
-
-onMounted(() =>{
-  if(!route.params.id){
-    store.commit('clearRestaurant')
-  }
-})
 
 </script>
 
