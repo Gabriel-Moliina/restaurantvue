@@ -126,7 +126,7 @@ onMounted(() => {
   loadDataTable()
 })
 
-watch(() => route.params.id, (newId, oldId) =>{
+watch(() => store.state.restaurant.id, (newId, oldId) =>{
   loadDataTable()
 })
 

@@ -105,9 +105,11 @@ const setRestaurant = (id) => {
 }
 
 const getRestaurants = () => {
-  restaurantService.GetByUserId(store.state.user.id).then(response => {
-    restaurants.value = response.data.data
-  }).catch(err => { });
+  restaurantService.GetByUserId(store.state.user.id)
+    .then(response => {
+      restaurants.value = response.data.data;
+      setRestaurant(route.params.id);
+    }).catch(err => { });
 }
 
 const openDialogCreate = (id) => {
@@ -136,7 +138,7 @@ const logOut = () => {
 
 onMounted(() => {
   getRestaurants();
-  
+
   const restaurant = JSON.parse(localStorage.getItem('restaurant'));
   if (restaurant)
     store.commit('setRestaurant', { id: restaurant.id, name: restaurant.name })
