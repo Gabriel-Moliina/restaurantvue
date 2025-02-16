@@ -34,14 +34,12 @@
 
 <script setup lang="js">
 
-import { useRoute } from 'vue-router';
 import { ref } from 'vue'
 import { InputNumber, Button, Dialog, InputText, FloatLabel } from 'primevue';
 import { useTableService } from '@/services/api/TableService';
 import { useToastService } from '@/shared/ToastService';
 import { useStore } from 'vuex';
 
-const route = useRoute();
 const store = useStore();
 const tableService = useTableService();
 const { showToast } = useToastService()

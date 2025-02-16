@@ -20,7 +20,6 @@ import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useRestaurantService } from '@/services/api/RestaurantService';
 import { computed, onMounted, ref } from 'vue'
-import { useToastService } from '@/shared/ToastService';
 import { useAuthenticationService } from '@/services/authentication/AuthenticationService';
 import { Menubar, Button } from 'primevue';
 import DialogDeleteRestaurant from '../dialog-delete-restaurant/DialogDeleteRestaurant.vue';
@@ -29,12 +28,11 @@ const route = useRoute();
 const visibleDialogSaveRestaurant = ref(false);
 const visibleDialogDeleteRestaurant = ref(false);
 const store = useStore();
-const restaurantId = ref(store.state.restaurant.id);
+const restaurantId = ref(0);
 const restaurants = ref([]);
 const router = useRouter();
 const restaurantService = useRestaurantService();
 const authenticationService = useAuthenticationService();
-const { showToast } = useToastService();
 
 const itensNavBar = computed(() => {
   const baseItens = [{
@@ -68,7 +66,7 @@ const itensNavBar = computed(() => {
           label: 'Editar',
           icon: 'pi pi-pencil',
           command() {
-            openDialogCreate(x.id)
+            openDialogSave(x.id)
           },
         },
         {
@@ -88,7 +86,7 @@ const itensNavBar = computed(() => {
     label: 'Adicionar',
     icon: 'pi pi-plus',
     command() {
-      openDialogCreate(0)
+      openDialogSave(0)
     }
   }
   )
@@ -112,7 +110,7 @@ const getRestaurants = () => {
     }).catch(err => { });
 }
 
-const openDialogCreate = (id) => {
+const openDialogSave = (id) => {
   restaurantId.value = id;
   visibleDialogSaveRestaurant.value = true;
 }

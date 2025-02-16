@@ -52,7 +52,7 @@ const resetForm = () => {
 }
 
 const loadRestaurant = () => {
-    if (props.restaurantId) {
+    if (!props.restaurantId) {
         resetForm();
         return;
     }
@@ -65,5 +65,4 @@ const loadRestaurant = () => {
 
         }).catch(err => { });
 }
-
 </script>
