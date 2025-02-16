@@ -55,10 +55,10 @@ const emit = defineEmits(['closeDialog'])
 const confirmCreateTable = () => {
     const table = {
         identification: tableCreate.value.identification,
-        capacity: tableCreate.value.capacity,
+        capacity: tableCreate.value.capacity ?? 0,
         restaurantId: store.state.restaurant.id
     };
-
+    
     tableService.Create(table)
         .then(_ => {
             showToast('success', 'Sucesso', 'Mesa cadastrada')

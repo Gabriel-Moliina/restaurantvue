@@ -13,7 +13,7 @@
             <div class="row mb-4">
                 <div class="col-md-12">
                     <FloatLabel>
-                        <InputText v-model="tableEdit.capacity" id="capacity" class="flex-auto" autocomplete="off" />
+                        <InputNumber v-model="tableEdit.capacity" id="capacity" class="flex-auto" autocomplete="off" />
                         <label for="capacity">Capacidade da mesa</label>
                     </FloatLabel>
                 </div>
@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="js">
-import { Dialog, Button, InputText, FloatLabel } from 'primevue';
+import { Dialog, Button, InputText, FloatLabel, InputNumber } from 'primevue';
 import { ref } from 'vue'
 import { useTableService } from '@/services/api/TableService';
 import { useToastService } from '@/shared/ToastService'
@@ -60,12 +60,12 @@ const tableEdit = ref({
 
 const confirmEdit = () => {
     const table = {
-        capacity: tableEdit.value.capacity,
+        capacity: tableEdit.value.capacity ?? 0,
         id: tableEdit.value.id,
         identification: tableEdit.value.identification,
         restaurantId: store.state.restaurant.id,
     }
-
+    
     tableService.Create(table)
         .then(_ => {
             showToast('success', 'Sucesso', 'Mesa editada');
