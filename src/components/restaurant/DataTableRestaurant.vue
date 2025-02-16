@@ -122,8 +122,6 @@ onMounted(() => {
   if(!route.params.id){
     store.commit('clearRestaurant')
   }
-  
-  loadDataTable()
 })
 
 watch(() => store.state.restaurant.id, (newId, oldId) =>{
