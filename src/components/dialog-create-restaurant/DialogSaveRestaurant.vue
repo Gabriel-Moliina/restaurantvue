@@ -40,8 +40,10 @@ const props = defineProps(['restaurantId'])
 const confirmCreate = () => {
     restaurantService.Create({ id: props.restaurantId, name: restaurantName.value })
         .then(() => {
-
-            showToast('success', 'Sucesso', 'Restaurante criado');
+            if(props.restaurantId == 0)
+                showToast('success', 'Sucesso', 'Restaurante criado');
+            else
+                showToast('success', 'Sucesso', 'Restaurante editado');
             emit('closeDialog')
         }).catch(err => { });
 }
