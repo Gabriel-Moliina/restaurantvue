@@ -8,7 +8,7 @@ export const useReservationService = () => {
 
   const Create = (tableId, date, email) => api.post('/', { TableId: tableId, Date: date, Email: email });
 
-  const Cancel = (id) => api.delete('/' + id);
+  const Cancel = (id) => api.delete('table/' + id);
 
   return {
     GetById,
