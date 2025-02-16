@@ -54,7 +54,6 @@ const props = defineProps({
 const onShow = () => {
     reservationService.GetById(props.reservationId)
         .then(({ data }) => {
-            console.log(data)
             customerEmail.value = data.data.email;
             datetime24h.value = new Date(data.data.date);
             dialogHeader.value = 'Reserva da mesa ' + `"${data.data.identification}"`
