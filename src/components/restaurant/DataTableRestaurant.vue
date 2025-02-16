@@ -18,7 +18,7 @@
         <template #body="row">
           <Button v-if="!row.data.reserved" title="Reservar mesa" severity="success" icon="pi pi-calendar-clock" @click="reserve(row.data)" />
           <Button v-if="row.data.reserved" title="Cancelar mesa" severity="danger" icon="pi pi-calendar-clock"
-            @click="cancelReserve(row.data.id)" />
+            @click="cancelReserve(row.data)" />
         </template>
       </Column>
       <Column header="Liberar" bodyStyle="text-align:center" style="width: 10%">
@@ -45,6 +45,13 @@
     @close-dialog="closeDialog('reserve')"
     :table-id="tableId"
   />
+
+  <DialogCancelReserve
+    v-model:visible="visibleTableCancelReserve"
+    @close-dialog="closeDialog('cancelReserve')"
+    :table-id="tableId"
+    :reservation-id="reservationId"
+  />
 </template>
 
 <script setup lang="js">
@@ -52,27 +59,28 @@
 import { ref, onMounted, watch } from 'vue';
 import { DataTable, Column, Button } from 'primevue';
 import { useRoute } from 'vue-router';
-import { useReservationService } from '@/services/api/ReservationService';
 import { useToastService } from '@/shared/ToastService';
 import DialogCreate from '@/components/dialog-create/DialogCreate.vue';
 import DialogEdit from '@/components/dialog-edit/DialogEdit.vue';
 import DialogReserve from '@/components/dialog-reserve/DialogReserve.vue';
 import { useTableService } from '@/services/api/TableService';
 import { useStore } from 'vuex';
+import DialogCancelReserve from '../dialog-reserve/DialogCancelReserve.vue';
 
 const store = useStore();
 const route = useRoute();
 const tableService = useTableService();
-const reservationService = useReservationService();
 
 const visibleTableEdit = ref(false);
 const visibleTableReserve = ref(false);
+const visibleTableCancelReserve = ref(false);
 const visibleTableCreate = ref(false);
 
 const tables = ref();
 const { showToast } = useToastService();
 
 const tableId = ref(0);
+const reservationId = ref(0);
 
 const editTable = (data) => {
   tableId.value = data.id;
@@ -84,24 +92,21 @@ const reserve = (data) => {
   visibleTableReserve.value = true;
 }
 
+const cancelReserve = (data) => {
+  tableId.value = data.id
+  reservationId.value = data.reservationId
+  visibleTableCancelReserve.value = true;
+}
 
 const closeDialog = (dialog, args) => {
   if(dialog === 'create') visibleTableCreate.value = false;
   if(dialog === 'edit') visibleTableEdit.value = false;
   if(dialog === 'reserve') visibleTableReserve.value = false;
+  if(dialog === 'cancelReserve') visibleTableCancelReserve.value = false;
 
   if(!args?.cancelEvent) loadDataTable();
 }
 
-const cancelReserve = (tableId) => {
-  reservationService.Cancel(tableId)
-    .then(_ => {
-      showToast('success', 'Sucesso', 'A reserva foi cancelada!')
-      visibleTableReserve.value = false;
-      loadDataTable();
-    })
-    .catch(err => { });
-}
 
 const release = (id) => {
   tableService.Release({
