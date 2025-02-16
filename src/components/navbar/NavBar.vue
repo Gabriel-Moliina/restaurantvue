@@ -103,7 +103,7 @@ const setRestaurant = (id) => {
 }
 
 const getRestaurants = () => {
-  restaurantService.GetByUserId(store.state.user.id)
+  restaurantService.GetByUserId()
     .then(response => {
       restaurants.value = response.data.data;
       setRestaurant(route.params.id);
