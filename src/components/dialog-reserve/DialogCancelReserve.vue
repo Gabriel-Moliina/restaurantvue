@@ -61,7 +61,7 @@ const onShow = () => {
 }
 
 const cancelReserve = () => {
-    reservationService.Cancel(props.tableId)
+    reservationService.Cancel(props.reservationId)
         .then(_ => {
             showToast('success', 'Sucesso', 'A reserva foi cancelada!')
             emit('closeDialog');
