@@ -94,8 +94,10 @@ const itensNavBar = computed(() => {
 })
 
 const setRestaurant = (id) => {
+  if(!restaurants.value.some(x => x.id == id)) return;
+  
   const restaurant = { id, name: restaurants.value.find(x => x.id == id).name };
-
+  
   store.commit('setRestaurant', restaurant)
   localStorage.setItem('restaurant', JSON.stringify(restaurant))
 
